@@ -21,7 +21,7 @@ app.post('/createcar', function(req, res) {
   car.moneyPolicy = b.moneyPolicy;
   car.owner = b.owner;
 ```
-### POST /createcar
+### POST /createcar/:carId:
 
 Use this route to create a car.
 
@@ -42,16 +42,9 @@ This route takes parameters in the following form:
 
 This route returns and HTTP response code, 500 for error, or 200 for success.
 
-### POST /carinfo
+### GET /carinfo/:carId:
 
 Use this route to get info about a car.
-
-This route takes parameters in the following form:
-``` JSON
-{
-  'carId' : carId
-}
-```
 
 It returns data in the following form:
 
@@ -68,34 +61,35 @@ It returns data in the following form:
 }
 ```
 
-### POST /updateparked
+### POST /updateparked/:carId:
 
 Use this route to update the parked location of the car.
 
 This route takes parameters in the following form:
 ``` JSON
 {
-  'carId' : carId,
   'parkedLocation' : parkedLocation
 }
 ```
 
 This route returns and HTTP response code, 500 for error, or 200 for success.
 
-### POST /updateapprovedlist
+### POST /updateapprovedlist/:carId:
 
 Use this route to ~~update~~ add to the people on the approved list for a given car.
 
 This route takes parameters in the following form:
 ``` JSON
 {
-  'carId' : carId,
-  'newPeople' : [people]
+  'newPeople' : [
+    'name' : name,
+    ...
+  ]
 }
 ```
 This route returns and HTTP response code, 500 for error, or 200 for success.
 
-### POST /updatescheduledrequests
+### POST /updatescheduledrequests/:carId:/:requestId:
 
 Use this route to add a request to a car's scheduled requests and remove the request from the car's pending requests.
 
