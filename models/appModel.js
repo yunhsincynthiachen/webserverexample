@@ -1,16 +1,16 @@
 var mongoose = require('mongoose');
 
 var requestSchema = mongoose.Schema({
-	'startTime' : String,
-	'borrowerName' : String,
 	'date' : String,
-	'endTime' : String
+	'startTime' : String,
+	'endTime' : String,
+	'borrowerName' : String
 });
 
 var carSchema = mongoose.Schema({
 	'make' : String,
 	'model' : String,
-	'licensePlate' : String
+	'licensePlate' : String,
 	'parkedLocation' : String,
 	'keysLocation' : String,
 	'isAutomatic' : Boolean,

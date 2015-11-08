@@ -23,6 +23,139 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // routes
+app.post('/deletefromscheduled', function(req, res) {
+  var b = req.body;
+
+  var car = new CarModel();
+  car.make = b.make;
+  car.model = b.model;
+  car.licensePlate = b.licensePlate;
+  car.parkedLocation = b.parkedLocation;
+  car.keysLocation = b.keysLocation;
+  car.isAutomatic = b.isAutomatic;
+  car.moneyPolicy = b.moneyPolicy;
+  car.owner = b.owner;
+  car.approvedList = [];
+  car.pendingRequests = [];
+  car.scheduledRequests = [];
+
+  car.save(function(err) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+
+    res.sendStatus(200);
+    return;
+  })
+});
+app.post('/deletefrompending', function(req, res) {
+  var b = req.body;
+
+  var car = new CarModel();
+  car.make = b.make;
+  car.model = b.model;
+  car.licensePlate = b.licensePlate;
+  car.parkedLocation = b.parkedLocation;
+  car.keysLocation = b.keysLocation;
+  car.isAutomatic = b.isAutomatic;
+  car.moneyPolicy = b.moneyPolicy;
+  car.owner = b.owner;
+  car.approvedList = [];
+  car.pendingRequests = [];
+  car.scheduledRequests = [];
+
+  car.save(function(err) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+
+    res.sendStatus(200);
+    return;
+  })
+});
+app.post('/updatependingrequest', function(req, res) {
+  var b = req.body;
+
+  var car = new CarModel();
+  car.make = b.make;
+  car.model = b.model;
+  car.licensePlate = b.licensePlate;
+  car.parkedLocation = b.parkedLocation;
+  car.keysLocation = b.keysLocation;
+  car.isAutomatic = b.isAutomatic;
+  car.moneyPolicy = b.moneyPolicy;
+  car.owner = b.owner;
+  car.approvedList = [];
+  car.pendingRequests = [];
+  car.scheduledRequests = [];
+
+  car.save(function(err) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+
+    res.sendStatus(200);
+    return;
+  })
+});
+
+app.post('/updatescheduledrequests', function(req, res) {
+  var b = req.body;
+
+  var car = new CarModel();
+  car.scheduledRequests = [];
+
+  var requestnode = new RequestModel();
+  
+
+  car.save(function(err) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+
+    res.sendStatus(200);
+    return;
+  })
+});
+app.post('/updateapprovedlist', function(req, res) {
+  var b = req.body;
+
+  var car = new CarModel();
+  car.approvedList = [];
+
+  car.save(function(err) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+
+    res.sendStatus(200);
+    return;
+  })
+});
+
+app.post('/uppdateparked', function(req, res) {
+  var b = req.body;
+
+  var car = new CarModel();
+  car.parkedLocation = b.parkedLocation;
+
+
+  car.save(function(err) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+
+    res.sendStatus(200);
+    return;
+  })
+});
+
 app.post('/createcar', function(req, res) {
   var b = req.body;
 
