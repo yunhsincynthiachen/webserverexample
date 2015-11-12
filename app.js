@@ -23,6 +23,24 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // routes
+app.get('/cars', function(req, res) {
+
+  CarModel.find({ }, function(err, cars) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+
+    if (!cars) {
+      res.json({"error":"Cars not found"});
+      return;
+    }
+    else {
+      res.json(cars);
+      return;
+    }
+  });
+});
 
 app.post('/cars', function(req, res) {
   var b = req.body;
