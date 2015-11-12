@@ -6,7 +6,7 @@ var requestSchema = mongoose.Schema({
 	'startTime' : String,
 	'endTime' : String,
 	'borrowerName' : String,
-	'approved' : int
+	'approved' : double
 });
 
 var carSchema = mongoose.Schema({
@@ -20,7 +20,7 @@ var carSchema = mongoose.Schema({
 	'moneyPolicy' : String,
 	'owner' : String,
 	'approvedList' : [String],
-	'requests' : [requestSchema]
+	'requests' : [String]
 });
 
 // var personSchema = mongoose.Schema({
