@@ -6,7 +6,7 @@ var requestSchema = mongoose.Schema({
 	'startTime' : String,
 	'endTime' : String,
 	'borrowerName' : String,
-	'approved' : double
+	'approved' : {type: Number, min: 0, max: 2}
 });
 
 var carSchema = mongoose.Schema({
