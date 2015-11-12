@@ -23,10 +23,12 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // routes
-app.post('/deletefromscheduled', function(req, res) {
+
+app.post('/cars', function(req, res) {
   var b = req.body;
 
   var car = new CarModel();
+  car.carId = b.carId;
   car.make = b.make;
   car.model = b.model;
   car.licensePlate = b.licensePlate;
@@ -35,61 +37,7 @@ app.post('/deletefromscheduled', function(req, res) {
   car.isAutomatic = b.isAutomatic;
   car.moneyPolicy = b.moneyPolicy;
   car.owner = b.owner;
-  car.approvedList = [];
-  car.pendingRequests = [];
-  car.scheduledRequests = [];
-
-  car.save(function(err) {
-    if (err) {
-      res.sendStatus(500);
-      return;
-    }
-
-    res.sendStatus(200);
-    return;
-  })
-});
-app.post('/deletefrompending', function(req, res) {
-  var b = req.body;
-
-  var car = new CarModel();
-  car.make = b.make;
-  car.model = b.model;
-  car.licensePlate = b.licensePlate;
-  car.parkedLocation = b.parkedLocation;
-  car.keysLocation = b.keysLocation;
-  car.isAutomatic = b.isAutomatic;
-  car.moneyPolicy = b.moneyPolicy;
-  car.owner = b.owner;
-  car.approvedList = [];
-  car.pendingRequests = [];
-  car.scheduledRequests = [];
-
-  car.save(function(err) {
-    if (err) {
-      res.sendStatus(500);
-      return;
-    }
-
-    res.sendStatus(200);
-    return;
-  })
-});
-app.post('/updatependingrequest', function(req, res) {
-  var b = req.body;
-
-  var car = new CarModel();
-  car.make = b.make;
-  car.model = b.model;
-  car.licensePlate = b.licensePlate;
-  car.parkedLocation = b.parkedLocation;
-  car.keysLocation = b.keysLocation;
-  car.isAutomatic = b.isAutomatic;
-  car.moneyPolicy = b.moneyPolicy;
-  car.owner = b.owner;
-  car.approvedList = [];
-  car.pendingRequests = [];
-  car.scheduledRequests = [];
+  car.requests = [];
 
   car.save(function(err) {
     if (err) {
@@ -102,91 +50,11 @@ app.post('/updatependingrequest', function(req, res) {
   })
 });
 
-app.post('/updatescheduledrequests', function(req, res) {
-  var b = req.body;
 
-  var car = new CarModel();
-  car.scheduledRequests = [];
+app.get('/cars/:carId', function(req, res) {
+  var carId = req.params.carId;
 
-  var requestnode = new RequestModel();
-  
-
-  car.save(function(err) {
-    if (err) {
-      res.sendStatus(500);
-      return;
-    }
-
-    res.sendStatus(200);
-    return;
-  })
-});
-app.post('/updateapprovedlist', function(req, res) {
-  var b = req.body;
-
-  var car = new CarModel();
-  car.approvedList = [];
-
-  car.save(function(err) {
-    if (err) {
-      res.sendStatus(500);
-      return;
-    }
-
-    res.sendStatus(200);
-    return;
-  })
-});
-
-app.post('/uppdateparked', function(req, res) {
-  var b = req.body;
-
-  var car = new CarModel();
-  car.parkedLocation = b.parkedLocation;
-
-
-  car.save(function(err) {
-    if (err) {
-      res.sendStatus(500);
-      return;
-    }
-
-    res.sendStatus(200);
-    return;
-  })
-});
-
-app.post('/createcar', function(req, res) {
-  var b = req.body;
-
-  var car = new CarModel();
-  car.make = b.make;
-  car.model = b.model;
-  car.licensePlate = b.licensePlate;
-  car.parkedLocation = b.parkedLocation;
-  car.keysLocation = b.keysLocation;
-  car.isAutomatic = b.isAutomatic;
-  car.moneyPolicy = b.moneyPolicy;
-  car.owner = b.owner;
-  car.approvedList = [];
-  car.pendingRequests = [];
-  car.scheduledRequests = [];
-
-  car.save(function(err) {
-    if (err) {
-      res.sendStatus(500);
-      return;
-    }
-
-    res.sendStatus(200);
-    return;
-  })
-});
-
-app.post('/carinfo', function(req, res) {
-  var carId = req.body.carId;
-
-  CarModel.findOne({ '_id' : carId }, function(err, car) {
+  CarModel.findOne({ 'carId' : carId }, function(err, car) {
     if (err) {
       res.sendStatus(500);
       return;
@@ -196,104 +64,260 @@ app.post('/carinfo', function(req, res) {
       res.json({"error":"Car not found"});
       return;
     }
-
-    res.json(car);
-    return;
+    else {
+      res.json(car);
+      return;
+    }
   });
 });
 
 
+app.patch('/cars/:carId', function(req, res) {
+  var b = req.body;
+  var carId = req.params.carId;
 
-app.post('/userdata/:appId', function(req, res) {
-  var appId = req.params.appId;
-  var imageKey = req.body.imageKey;
-  var imageLocation = req.body.imageLocation
+  CarModel.findOne({ 'carId' : carId }, function(err, car) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
 
-  if (imageKey == null || imageLocation == null) {
-    res.json({"error":"Set the imageKey and imageLocation in the body"});
-    return;
-  }
+    if (!car) {
+      res.json({"error":"Car not found"});
+      return;
+    }
+    else {
+      for(var key in req.body) {
+        if(req.body.hasOwnProperty(key)){
+          //do something with e.g. req.body[key]
+          car[key] = b[key]
+        }
+      }
+      car.save(function(err) {
+        if (err) {
+          res.sendStatus(500);
+          return;
+        }
+
+        res.sendStatus(200);
+        return;
+      })
+    }
+  });
+});
+
+
+app.post('/cars/:carId/requests', function(req, res) {
+  var b = req.body;
+
+  var carId = req.params.carId;
+
+  var request = new RequestModel();
+  request.requestId = b.requestId;
+  request.date = b.date;
+  request.startTime = b.startTime;
+  request.endTime = b.endTime;
+  request.borrowerName = b.borrowerName;
+  request.approved = b.approved;
+
+
+  CarModel.findOne({ 'carId' : carId }, function(err, car) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+
+    if (!car) {
+      res.json({"error":"Car not found"});
+      return;
+    }
+    else {
+      car.requests.push(request);
+
+      car.save(function(err) {
+        if (err) {
+          res.sendStatus(500);
+          return;
+        }
+
+        res.sendStatus(200);
+        return;
+      });
+    }
+  });
+});
+
+app.get('/cars/:carId/requests/:requestId', function(req, res) {
+  var carId = req.params.carId;
+  var requestId = req.params.requestId;
+
+  CarModel.findOne({ 'carId' : carId }, function(err, car) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+
+    if (!car) {
+      res.json({"error":"Car not found"});
+      return;
+    }
+    else {
+      RequestModel.findOne({'requestId' : requestId}, function(err, request){
+        if (err) {
+          res.sendStatus(500);
+          return;
+        }
+
+        if (!request) {
+          res.json({"error": "Request not found"});
+          return;
+        }
+        else {
+          res.json(request);
+          return;
+        }
+      })
+    }
+  });
+});
+
+app.patch('/cars/:carId/requests/:requestId', function(req,res) {
+  var carId = req.params.carId;
+  var requestId = req.params.requestId;
+
+  CarModel.findOne({ 'carId' : carId }, function(err, car) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+
+    if (!car) {
+      res.json({"error":"Car not found"});
+      return;
+    }
+    else {
+      RequestModel.findOne({'requestId' : requestId}, function(err, request){
+        if (err) {
+          res.sendStatus(500);
+          return;
+        }
+
+        if (!request) {
+          res.json({"error": "Request not found"});
+          return;
+        }
+        else {
+          for(var key in req.body) {
+            if(req.body.hasOwnProperty(key)){
+              //do something with e.g. req.body[key]
+              request[key] = b[key]
+            }
+          }
+          reqest.save(function(err) {
+            if (err) {
+              res.sendStatus(500);
+              return;
+            }
+
+            res.sendStatus(200);
+            return;
+          })
+        }
+      })
+    }
+  });
+});
+
+// app.post('/userdata/:appId', function(req, res) {
+//   var appId = req.params.appId;
+//   var imageKey = req.body.imageKey;
+//   var imageLocation = req.body.imageLocation
+
+//   if (imageKey == null || imageLocation == null) {
+//     res.json({"error":"Set the imageKey and imageLocation in the body"});
+//     return;
+//   }
   
-  console.log(appId);
-  // here we shall get the user's data and save it to mongo
-  AppModel.findOne({ 'appId' : appId }, function(err, a) {
-    if (err) {
-      res.sendStatus(500);
-      return;
-    }
+//   console.log(appId);
+//   // here we shall get the user's data and save it to mongo
+//   AppModel.findOne({ 'appId' : appId }, function(err, a) {
+//     if (err) {
+//       res.sendStatus(500);
+//       return;
+//     }
 
-    if (!a) {
-      var imageModel = new ImageModel();
-      imageModel.imageKey = imageKey;
-      imageModel.imageLocation = imageLocation;
-      var newApp = new AppModel();
+//     if (!a) {
+//       var imageModel = new ImageModel();
+//       imageModel.imageKey = imageKey;
+//       imageModel.imageLocation = imageLocation;
+//       var newApp = new AppModel();
 
-      newApp.appId = appId;
-      newApp.userImages = [imageModel]; // TODO: Add image from imagePath, imageLocation
+//       newApp.appId = appId;
+//       newApp.userImages = [imageModel]; // TODO: Add image from imagePath, imageLocation
 
-      newApp.save(function(err) {
-        if (err) {
-          res.sendStatus(500);
-          return;
-        }
+//       newApp.save(function(err) {
+//         if (err) {
+//           res.sendStatus(500);
+//           return;
+//         }
 
-        res.sendStatus(200);
-        return;
-      });
-    } else {
-      console.log("APP");
-      var imageModel = new ImageModel();
-      imageModel.imageKey = imageKey;
-      imageModel.imageLocation = imageLocation;
-      a.userImages.push(imageModel);
+//         res.sendStatus(200);
+//         return;
+//       });
+//     } else {
+//       console.log("APP");
+//       var imageModel = new ImageModel();
+//       imageModel.imageKey = imageKey;
+//       imageModel.imageLocation = imageLocation;
+//       a.userImages.push(imageModel);
 
-      a.save(function(err) {
-        if (err) {
-          res.sendStatus(500);
-          return;
-        }
+//       a.save(function(err) {
+//         if (err) {
+//           res.sendStatus(500);
+//           return;
+//         }
 
-        res.sendStatus(200);
-        return;
-      });
-    }
-  });
-});
+//         res.sendStatus(200);
+//         return;
+//       });
+//     }
+//   });
+// });
 
-app.get('/userdata/:appId', function(req, res) {
-  var appId = req.params.appId;
+// app.get('/userdata/:appId', function(req, res) {
+//   var appId = req.params.appId;
 
-  console.log(appId);
-  // here we shall get the users data from mongo and return this to the app.
-  AppModel.findOne({ 'appId' : appId }, function(err, app) {
-    if (err) {
-      res.sendStatus(500);
-      return;
-    }
+//   console.log(appId);
+//   // here we shall get the users data from mongo and return this to the app.
+//   AppModel.findOne({ 'appId' : appId }, function(err, app) {
+//     if (err) {
+//       res.sendStatus(500);
+//       return;
+//     }
 
-    if (!app) {
-      console.log("NO app");
-      var newApp = new AppModel();
+//     if (!app) {
+//       console.log("NO app");
+//       var newApp = new AppModel();
 
-      newApp.appId = appId;
-      newApp.userImages = []; 
+//       newApp.appId = appId;
+//       newApp.userImages = []; 
 
-      newApp.save(function(err) {
-        if (err) {
-          res.sendStatus(500);
-          return;
-        }
+//       newApp.save(function(err) {
+//         if (err) {
+//           res.sendStatus(500);
+//           return;
+//         }
 
-        res.json({'data':newApp.userImages});
-        return;
-      });
-    } else {
-      var images = app.userImages;
-      res.json({'data':images});
-      return;
-    }
-  });
-});
+//         res.json({'data':newApp.userImages});
+//         return;
+//       });
+//     } else {
+//       var images = app.userImages;
+//       res.json({'data':images});
+//       return;
+//     }
+//   });
+// });
 
 var url = "0.0.0.0";
 var port = process.env.PORT || 8080;

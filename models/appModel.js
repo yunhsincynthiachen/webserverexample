@@ -1,13 +1,16 @@
 var mongoose = require('mongoose');
 
 var requestSchema = mongoose.Schema({
+	'requestId' : String,
 	'date' : String,
 	'startTime' : String,
 	'endTime' : String,
-	'borrowerName' : String
+	'borrowerName' : String,
+	'approved' : int
 });
 
 var carSchema = mongoose.Schema({
+	'carId' : String,
 	'make' : String,
 	'model' : String,
 	'licensePlate' : String,
@@ -17,9 +20,13 @@ var carSchema = mongoose.Schema({
 	'moneyPolicy' : String,
 	'owner' : String,
 	'approvedList' : [String],
-	'pendingRequests' : [requestSchema],
-	'scheduledRequests' : [requestSchema]
+	'requests' : [requestSchema]
 });
+
+// var personSchema = mongoose.Schema({
+// 	'userId' : String,
+// 	'carId' : String
+// });
 
 module.exports = {
 	'CarModel' : mongoose.model('CarModel', carSchema),
