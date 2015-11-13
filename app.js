@@ -199,35 +199,36 @@ app.get('/cars/:carId/requests/:requestId', function(req, res) {
 app.patch('/cars/:carId/requests/:requestId', function(req,res) {
   var carId = req.params.carId;
   var requestId = req.params.requestId;
+  var b = req.body;
 
-    RequestModel.findOne({'requestId' : requestId}, function(err, request){
-      if (err) {
-        res.sendStatus(500);
-        return;
-      }
+  RequestModel.findOne({'requestId' : requestId}, function(err, request){
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
 
-      if (!request) {
-        res.json({"error": "Request not found"});
-        return;
-      }
-      else {
-        for(var key in req.body) {
-          if(req.body.hasOwnProperty(key)){
-            //do something with e.g. req.body[key]
-            request[key] = b[key]
-          }
+    if (!request) {
+      res.json({"error": "Request not found"});
+      return;
+    }
+    else {
+      for(var key in req.body) {
+        if(req.body.hasOwnProperty(key)){
+          //do something with e.g. req.body[key]
+          request[key] = b[key]
         }
-        reqest.save(function(err) {
-          if (err) {
-            res.sendStatus(500);
-            return;
-          }
-
-          res.sendStatus(200);
-          return;
-        })
       }
-    })
+      reqest.save(function(err) {
+        if (err) {
+          res.sendStatus(500);
+          return;
+        }
+
+        res.sendStatus(200);
+        return;
+      })
+    }
+  })
 });
 
 // app.post('/userdata/:appId', function(req, res) {
