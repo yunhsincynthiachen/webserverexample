@@ -183,7 +183,7 @@ app.get('/cars/:carId/requests/:requestId', function(req, res) {
     else {
       console.log(requestId);
 
-      RequestModel.find({}, function(err, request){
+      car.requests.findOne({'requestId' : requestId}, function(err, request){
         if (err) {
           res.sendStatus(500);
           return;
