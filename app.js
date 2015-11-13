@@ -125,6 +125,38 @@ app.patch('/cars/:carId', function(req, res) {
 });
 
 
+app.post('/cars/:carId/approved', function(req, res) {
+  var b = req.body;
+
+  var carId = req.params.carId;
+
+
+  CarModel.findOne({ 'carId' : carId }, function(err, car) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+
+    if (!car) {
+      res.json({"error":"Car not found"});
+      return;
+    }
+    else {
+      car.approvedList.push(b.user);
+
+      car.save(function(err) {
+        if (err) {
+          res.sendStatus(500);
+          return;
+        }
+
+        res.sendStatus(200);
+        return;
+      });
+    }
+  });
+});
+
 app.post('/cars/:carId/requests', function(req, res) {
   var b = req.body;
 
