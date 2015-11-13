@@ -218,7 +218,7 @@ app.patch('/cars/:carId/requests/:requestId', function(req,res) {
           request[key] = b[key]
         }
       }
-      reqest.save(function(err) {
+      request.save(function(err) {
         if (err) {
           res.sendStatus(500);
           return;
