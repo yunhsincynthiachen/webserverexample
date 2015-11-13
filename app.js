@@ -62,7 +62,7 @@ app.post('/cars', function(req, res) {
       res.sendStatus(500);
       return;
     }
-    console.log(car.make);
+    console.log(b);
     res.sendStatus(200);
     return;
   })
