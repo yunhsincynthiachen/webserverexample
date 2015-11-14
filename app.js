@@ -36,9 +36,14 @@ app.delete('/cars', function(req, res) {
       return;
     }
     else {
+      var db = req.db; 
+      var collection = db.get('usercollection');
       cars.forEach(function(entry) {
-          cars.remove(entry);
-          console.log(entry);
+        var uid = entry["_id"]
+        collection.remove({"_id":uid}, function(err, result) { 
+            res.send( (result === 1) ? { msg: 'Deleted' } : { msg: 'error: '+ err } );
+        });       
+        console.log(entry["_id"]);
       });
       return;
     }
