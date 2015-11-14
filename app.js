@@ -38,10 +38,10 @@ app.delete('/cars', function(req, res) {
     else {
       cars.forEach(function(entry) {
         var uid = entry["_id"]
-        cars.remove({"_id":uid}, function(err, result) { 
-            res.send( (result === 1) ? { msg: 'Deleted' } : { msg: 'error: '+ err } );
-        });       
-        console.log(entry["_id"]);
+        // cars.remove({"_id":uid}, function(err, result) { 
+        //     res.send( (result === 1) ? { msg: 'Deleted' } : { msg: 'error: '+ err } );
+        // });       
+        console.log(uid);
       });
       return;
     }
