@@ -23,6 +23,27 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // routes
+app.delete('/cars', function(req, res) {
+
+  CarModel.find({ }, function(err, cars) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+
+    if (!cars) {
+      res.json({"error":"Cars not found"});
+      return;
+    }
+    else {
+      cars.forEach(function(entry) {
+          console.log(entry);
+      });
+      return;
+    }
+  });
+});
+
 app.get('/cars', function(req, res) {
 
   CarModel.find({ }, function(err, cars) {
