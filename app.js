@@ -37,6 +37,7 @@ app.delete('/cars', function(req, res) {
     }
     else {
       cars.forEach(function(entry) {
+          cars.remove(entry);
           console.log(entry);
       });
       return;
