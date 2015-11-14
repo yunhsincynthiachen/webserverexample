@@ -25,7 +25,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // routes
 app.delete('/cars', function(req, res) {
 
-  CarModel.find({ }, function(err, cars) {
+  CarModel.remove({ }, function(err, cars) {
     if (err) {
       res.sendStatus(500);
       return;
@@ -36,13 +36,6 @@ app.delete('/cars', function(req, res) {
       return;
     }
     else {
-      cars.forEach(function(entry) {
-        var uid = entry["_id"]
-        // cars.remove({"_id":uid}, function(err, result) { 
-        //     res.send( (result === 1) ? { msg: 'Deleted' } : { msg: 'error: '+ err } );
-        // });       
-        console.log(uid);
-      });
       return;
     }
   });
