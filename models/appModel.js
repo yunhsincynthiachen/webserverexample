@@ -19,7 +19,7 @@ var carSchema = mongoose.Schema({
 	'isAutomatic' : Boolean,
 	'moneyPolicy' : String,
 	'owner' : String,
-	'approvedList' : [Schema.Types.Mixed],
+	'approvedList' : [mongoose.Schema.Types.Mixed],
 	'requests' : [String]
 });
 
