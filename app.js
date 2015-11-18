@@ -25,17 +25,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 // routes
 app.delete('/cars', function(req, res) {
 
-  CarModel.remove({ }, function(err, cars) {
+  CarModel.remove({ }, function(err, removed) {
     if (err) {
       res.sendStatus(500);
-      return;
-    }
-
-    if (!cars) {
-      res.json({"error":"Cars not found"});
-      return;
-    }
-    else {
       return;
     }
   });
@@ -160,7 +152,9 @@ app.post('/cars/:carId/approved', function(req, res) {
       return;
     }
     else {
-      car.approvedList.push(b.user);
+      for (i=0; i<b.user.length; i++) {
+        car.approvedList.push(b.user[i]);
+      }
 
       car.save(function(err) {
         if (err) {
