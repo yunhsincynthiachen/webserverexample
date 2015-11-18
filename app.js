@@ -43,7 +43,7 @@ app.get('/person', function(req, res) {
     }
 
     if (!person) {
-      res.json({"error":"Cars not found"});
+      res.json({"error":"People not found"});
       return;
     }
     else {
@@ -72,6 +72,25 @@ app.post('/person', function(req, res) {
   })
 })
 
+app.get('/cars/:facebook_id', function(req, res) {
+  var facebook_id = req.params.facebook_id;
+
+  PersonModel.findOne({ 'facebook_id' : facebook_id }, function(err, person) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+
+    if (!person) {
+      res.json({"error":"Person not found"});
+      return;
+    }
+    else {
+      res.json(person);
+      return;
+    }
+  });
+});
 
 app.delete('/cars', function(req, res) {
 
