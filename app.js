@@ -154,6 +154,7 @@ app.post('/cars/:carId/approved', function(req, res) {
     else {
       for (var i=0; i<users_list.length; i++) {
         car.approvedList.push(users_list[i]);
+        console.log(users_list[i]);
       }
 
       car.save(function(err) {
