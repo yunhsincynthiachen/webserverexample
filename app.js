@@ -152,7 +152,7 @@ app.post('/cars/:carId/approved', function(req, res) {
       return;
     }
     else {
-      for (i=0; i<b.user.length; i++) {
+      for (var i=0; i<b.user.length; i++) {
         car.approvedList.push(b.user[i]);
       }
 
