@@ -12,6 +12,7 @@ mongoose.connect(dbConfig.url);
 // data schemas
 var CarModel = require('./models/appModel').CarModel;
 var RequestModel = require('./models/appModel').RequestModel;
+var PersonModel = require('./models/appModel').PersonModel;
 
 var app = express();
 
@@ -23,6 +24,55 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // routes
+app.delete('/person', function(req, res) {
+
+  PersonModel.remove({ }, function(err, removed) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+  });
+});
+
+app.get('/person', function(req, res) {
+
+  PersonModel.find({ }, function(err, person) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+
+    if (!person) {
+      res.json({"error":"Cars not found"});
+      return;
+    }
+    else {
+      res.json(person);
+      return;
+    }
+  });
+});
+
+app.post('/person', function(req, res) {
+  var b = req.body;
+
+  var person = new PersonModel();
+  person.facebook_name = b.facebook_name;
+  person.facebook_id = b.facebook_id;
+  person.user_type = b.user_type;
+
+  person.save(function(err) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+    console.log(b);
+    res.sendStatus(200);
+    return;
+  })
+})
+
+
 app.delete('/cars', function(req, res) {
 
   CarModel.remove({ }, function(err, removed) {

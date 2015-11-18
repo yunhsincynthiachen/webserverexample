@@ -23,12 +23,15 @@ var carSchema = mongoose.Schema({
 	'requests' : [String]
 });
 
-// var personSchema = mongoose.Schema({
-// 	'userId' : String,
-// 	'carId' : String
-// });
+//For borrower or owner: They will only have a carId if they are an owner
+var personSchema = mongoose.Schema({
+	'facebook_name' : String,
+	'facebook_id' : String,
+	'user_type' : String
+});
 
 module.exports = {
 	'CarModel' : mongoose.model('CarModel', carSchema),
-	'RequestModel' : mongoose.model('RequestModel', requestSchema)
+	'RequestModel' : mongoose.model('RequestModel', requestSchema),
+	'PersonModel' : mongoose.model('PersonModel', personSchema)
 };
