@@ -137,7 +137,7 @@ app.patch('/cars/:carId', function(req, res) {
 
 app.post('/cars/:carId/approved', function(req, res) {
   var b = req.body;
-  var users_list = b.user;
+
   var carId = req.params.carId;
 
 
@@ -152,9 +152,7 @@ app.post('/cars/:carId/approved', function(req, res) {
       return;
     }
     else {
-      for (var i=0; i<users_list.length; i++) {
-        car.approvedList.push(users_list[i]);
-      }
+      car.approvedList.push(b.user);
 
       car.save(function(err) {
         if (err) {
