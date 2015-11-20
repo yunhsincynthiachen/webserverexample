@@ -72,7 +72,7 @@ app.post('/person', function(req, res) {
   })
 })
 
-app.get('/cars/:facebook_id', function(req, res) {
+app.get('/person/:facebook_id', function(req, res) {
   var facebook_id = req.params.facebook_id;
 
   PersonModel.findOne({ 'facebook_id' : facebook_id }, function(err, person) {
@@ -125,7 +125,7 @@ app.post('/cars', function(req, res) {
   var b = req.body;
 
   var car = new CarModel();
-  car.carId = b.carId;
+  car.facebook_id = b.facebook_id;
   car.make = b.make;
   car.model = b.model;
   car.licensePlate = b.licensePlate;
@@ -134,6 +134,7 @@ app.post('/cars', function(req, res) {
   car.isAutomatic = b.isAutomatic;
   car.moneyPolicy = b.moneyPolicy;
   car.owner = b.owner;
+  car.approvedList = [];
   car.requests = [];
 
   car.save(function(err) {
@@ -148,10 +149,10 @@ app.post('/cars', function(req, res) {
 });
 
 
-app.get('/cars/:carId', function(req, res) {
-  var carId = req.params.carId;
+app.get('/cars/:facebook_id', function(req, res) {
+  var facebook_id = req.params.facebook_id;
 
-  CarModel.findOne({ 'carId' : carId }, function(err, car) {
+  CarModel.findOne({ 'facebook_id' : facebook_id }, function(err, car) {
     if (err) {
       res.sendStatus(500);
       return;
@@ -169,11 +170,11 @@ app.get('/cars/:carId', function(req, res) {
 });
 
 
-app.patch('/cars/:carId', function(req, res) {
+app.patch('/cars/:facebook_id', function(req, res) {
   var b = req.body;
-  var carId = req.params.carId;
+  var facebook_id = req.params.facebook_id;
 
-  CarModel.findOne({ 'carId' : carId }, function(err, car) {
+  CarModel.findOne({ 'facebook_id' : facebook_id }, function(err, car) {
     if (err) {
       res.sendStatus(500);
       return;
@@ -204,13 +205,13 @@ app.patch('/cars/:carId', function(req, res) {
 });
 
 
-app.post('/cars/:carId/approved', function(req, res) {
+app.post('/cars/:facebook_id/approved', function(req, res) {
   var b = req.body;
   var users_list = b.user;
-  var carId = req.params.carId;
+  var facebook_id = req.params.facebook_id;
 
 
-  CarModel.findOne({ 'carId' : carId }, function(err, car) {
+  CarModel.findOne({ 'facebook_id' : facebook_id }, function(err, car) {
     if (err) {
       res.sendStatus(500);
       return;
@@ -240,10 +241,10 @@ app.post('/cars/:carId/approved', function(req, res) {
   });
 });
 
-app.post('/cars/:carId/requests', function(req, res) {
+app.post('/cars/:facebook_id/requests', function(req, res) {
   var b = req.body;
 
-  var carId = req.params.carId;
+  var facebook_id = req.params.facebook_id;
 
   var request = new RequestModel();
   request.requestId = b.requestId;
@@ -254,7 +255,7 @@ app.post('/cars/:carId/requests', function(req, res) {
   request.approved = b.approved;
 
 
-  CarModel.findOne({ 'carId' : carId }, function(err, car) {
+  CarModel.findOne({ 'facebook_id' : facebook_id }, function(err, car) {
     if (err) {
       res.sendStatus(500);
       return;
@@ -290,8 +291,8 @@ app.post('/cars/:carId/requests', function(req, res) {
   });
 });
 
-app.get('/cars/:carId/requests/:requestId', function(req, res) {
-  var carId = req.params.carId;
+app.get('/cars/:facebook_id/requests/:requestId', function(req, res) {
+  var facebook_id = req.params.facebook_id;
   var requestId = req.params.requestId;
 
   RequestModel.findOne({ 'requestId' : requestId }, function(err, request) {
@@ -311,8 +312,8 @@ app.get('/cars/:carId/requests/:requestId', function(req, res) {
   });
 });
 
-app.patch('/cars/:carId/requests/:requestId', function(req,res) {
-  var carId = req.params.carId;
+app.patch('/cars/:facebook_id/requests/:requestId', function(req,res) {
+  var facebook_id = req.params.facebook_id;
   var requestId = req.params.requestId;
   var b = req.body;
 
@@ -345,97 +346,6 @@ app.patch('/cars/:carId/requests/:requestId', function(req,res) {
     }
   })
 });
-
-// app.post('/userdata/:appId', function(req, res) {
-//   var appId = req.params.appId;
-//   var imageKey = req.body.imageKey;
-//   var imageLocation = req.body.imageLocation
-
-//   if (imageKey == null || imageLocation == null) {
-//     res.json({"error":"Set the imageKey and imageLocation in the body"});
-//     return;
-//   }
-  
-//   console.log(appId);
-//   // here we shall get the user's data and save it to mongo
-//   AppModel.findOne({ 'appId' : appId }, function(err, a) {
-//     if (err) {
-//       res.sendStatus(500);
-//       return;
-//     }
-
-//     if (!a) {
-//       var imageModel = new ImageModel();
-//       imageModel.imageKey = imageKey;
-//       imageModel.imageLocation = imageLocation;
-//       var newApp = new AppModel();
-
-//       newApp.appId = appId;
-//       newApp.userImages = [imageModel]; // TODO: Add image from imagePath, imageLocation
-
-//       newApp.save(function(err) {
-//         if (err) {
-//           res.sendStatus(500);
-//           return;
-//         }
-
-//         res.sendStatus(200);
-//         return;
-//       });
-//     } else {
-//       console.log("APP");
-//       var imageModel = new ImageModel();
-//       imageModel.imageKey = imageKey;
-//       imageModel.imageLocation = imageLocation;
-//       a.userImages.push(imageModel);
-
-//       a.save(function(err) {
-//         if (err) {
-//           res.sendStatus(500);
-//           return;
-//         }
-
-//         res.sendStatus(200);
-//         return;
-//       });
-//     }
-//   });
-// });
-
-// app.get('/userdata/:appId', function(req, res) {
-//   var appId = req.params.appId;
-
-//   console.log(appId);
-//   // here we shall get the users data from mongo and return this to the app.
-//   AppModel.findOne({ 'appId' : appId }, function(err, app) {
-//     if (err) {
-//       res.sendStatus(500);
-//       return;
-//     }
-
-//     if (!app) {
-//       console.log("NO app");
-//       var newApp = new AppModel();
-
-//       newApp.appId = appId;
-//       newApp.userImages = []; 
-
-//       newApp.save(function(err) {
-//         if (err) {
-//           res.sendStatus(500);
-//           return;
-//         }
-
-//         res.json({'data':newApp.userImages});
-//         return;
-//       });
-//     } else {
-//       var images = app.userImages;
-//       res.json({'data':images});
-//       return;
-//     }
-//   });
-// });
 
 var url = "0.0.0.0";
 var port = process.env.PORT || 8080;

@@ -10,7 +10,7 @@ var requestSchema = mongoose.Schema({
 });
 
 var carSchema = mongoose.Schema({
-	'carId' : String,
+	'facebook_id' : String,
 	'make' : String,
 	'model' : String,
 	'licensePlate' : String,

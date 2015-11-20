@@ -1,17 +1,103 @@
-# Lab3Server
-This is the server for lab 3.
+# CarShareApp
+This is the server for CarShareApp.
 
-IP: 45.55.65.113
+IP: 52.33.226.47
+
+## Schemas
+Here are the different schemas:
+
+``` JavaScript
+
+var requestSchema = mongoose.Schema({
+  'requestId' : String,
+  'date' : String,
+  'startTime' : String,
+  'endTime' : String,
+  'borrowerName' : String,
+  'approved' : {type: Number, min: 0, max: 2}
+});
+
+var carSchema = mongoose.Schema({
+  'carId' : String,
+  'make' : String,
+  'model' : String,
+  'licensePlate' : String,
+  'parkedLocation' : String,
+  'keysLocation' : String,
+  'isAutomatic' : Boolean,
+  'moneyPolicy' : String,
+  'owner' : String,
+  'approvedList' : [mongoose.Schema.Types.Mixed],
+  'requests' : [String]
+});
+
+var personSchema = mongoose.Schema({
+  'facebook_name' : String,
+  'facebook_id' : String,
+  'user_type' : String
+});
+
+```
 
 ## Routes
 
 All routes return 500 for error.
 
+These are the routes that we have so far:
+
+### POST /person:
+-  Adding a person to the server:
+
 ``` JavaScript
-app.post('/createcar', function(req, res) {
+
+app.post('/person', function(req, res) {
+  var b = req.body;
+
+  var person = new PersonModel();
+  person.facebook_name = b.facebook_name;
+  person.facebook_id = b.facebook_id;
+  person.user_type = b.user_type;
+
+```
+
+### GET /person:
+- Getting all of the people in server information:
+
+```JSON
+[
+  {
+    'facebook_name' : facebook_name,
+    'facebook_id' : facebook_id,
+    'user_type' : user_type
+  },
+  {
+    'facebook_name' : facebook_name,
+    'facebook_id' : facebook_id,
+    'user_type' : user_type
+  },...
+]
+```
+
+### GET /person/:facebook_id:
+- Getting one user:
+
+```JSON
+{
+  'facebook_name' : facebook_name,
+  'facebook_id' : facebook_id,
+  'user_type' : user_type
+}
+```
+
+### POST /cars
+-  Adding a car to the server:
+
+``` JavaScript
+app.post('/cars', function(req, res) {
   var b = req.body;
 
   var car = new CarModel();
+  car.facebook_id = b.facebook_id;
   car.make = b.make;
   car.model = b.model;
   car.licensePlate = b.licensePlate;
@@ -20,134 +106,127 @@ app.post('/createcar', function(req, res) {
   car.isAutomatic = b.isAutomatic;
   car.moneyPolicy = b.moneyPolicy;
   car.owner = b.owner;
+  car.approvedList = [];
+  car.requests = [];
 ```
-### POST /createcar/:carId:
 
-Use this route to create a car.
+### GET /cars/:facebook_id:
+
+- Getting the car associated to the person:
 
 This route takes parameters in the following form:
 
 ``` JSON
 {
-  'make' : make,
-  'model' : model,
-  'licensePlate' : licensePlate,
-  'parkedLocation' : parkedLocation,
-  'keysLocation' : keysLocation,
-  'isAutomatic' : isAutomatic,
-  'moneyPolicy' : moneyPolicy,
-  'owner' : owner
+  'facebook_id' : facebook_id,
+	'make' : make,
+	'model' : model,
+	'licensePlate' : licensePlate,
+	'parkedLocation' : parkedLocation,
+	'keysLocation' : StkeysLocationring,
+	'isAutomatic' : isAutomatic,
+	'moneyPolicy' : moneyPolicy,
+	'owner' : owner,
+	'approvedList' : 'approvedList',
+	'requests' : 'requests'
 }
+
 ```
 
 This route returns and HTTP response code, 500 for error, or 200 for success.
+### GET /cars
+- Getting all of the cars in the server:
 
-### GET /carinfo/:carId:
-
-Use this route to get info about a car.
-
-It returns data in the following form:
+What we get out of it:
 
 ``` JSON
-{
-  'make' : make,
-  'model' : model,
-  'licensePlate' : licensePlate,
-  'parkedLocation' : parkedLocation,
-  'keysLocation' : keysLocation,
-  'isAutomatic' : isAutomatic,
-  'moneyPolicy' : moneyPolicy,
-  'owner' : owner
+[
+  {
+    'facebook_id' : facebook_id,
+  	'make' : make,
+  	'model' : model,
+  	'licensePlate' : licensePlate,
+  	'parkedLocation' : parkedLocation,
+  	'keysLocation' : StkeysLocationring,
+  	'isAutomatic' : isAutomatic,
+  	'moneyPolicy' : moneyPolicy,
+  	'owner' : owner,
+  	'approvedList' : 'approvedList',
+  	'requests' : 'requests'
+  },
+  {
+    'facebook_id' : facebook_id,
+  	'make' : make,
+  	'model' : model,
+  	'licensePlate' : licensePlate,
+  	'parkedLocation' : parkedLocation,
+  	'keysLocation' : StkeysLocationring,
+  	'isAutomatic' : isAutomatic,
+  	'moneyPolicy' : moneyPolicy,
+  	'owner' : owner,
+  	'approvedList' : 'approvedList',
+  	'requests' : 'requests'
+  },...
+]
+```
+
+### PATCH /cars/:facebook_id
+
+Give any of the different keys and corresponding values that you would like to change about the cars details.
+
+``` JavaScript
+for(var key in req.body) {
+  if(req.body.hasOwnProperty(key)){
+    //do something with e.g. req.body[key]
+    car[key] = b[key]
+  }
 }
 ```
 
-### POST /updateparked/:carId:
+### POST /cars/:facebook_id/approved
 
-Use this route to update the parked location of the car.
+Adds a list of approved users into the approvedList section of the carschema:
 
-This route takes parameters in the following form:
-``` JSON
-{
-  'parkedLocation' : parkedLocation
+``` JavaScript
+for (var i=0; i<users_list.length; i++) {
+  console.log(users_list[i]);
+  car.approvedList.push(users_list[i]);
 }
 ```
 
-This route returns and HTTP response code, 500 for error, or 200 for success.
+### POST /cars/:facebook_id/requests
 
-### POST /updateapprovedlist/:carId:
+Adds a requestid into the owner's request list. ALSO, makes a request schema in the request model.
 
-Use this route to ~~update~~ add to the people on the approved list for a given car.
+``` JavaScript
+app.post('/cars/:facebook_id/requests', function(req, res) {
+  var b = req.body;
 
-This route takes parameters in the following form:
-``` JSON
-{
-  'newPeople' : [
-    'name' : name,
-    ...
-  ]
-}
-```
-This route returns and HTTP response code, 500 for error, or 200 for success.
-
-### POST /updatescheduledrequests/:carId:/:requestId:
-
-Use this route to add a request to a car's scheduled requests and remove the request from the car's pending requests.
-
-This route takes parameters in the following form:
-``` JSON
-{
-  'carId' : carId,
-  'requestId' : requestId
-}
+  var facebook_id = req.params.facebook_id;
+  var request = new RequestModel();
+  request.requestId = b.requestId;
+  request.date = b.date;
+  request.startTime = b.startTime;
+  request.endTime = b.endTime;
+  request.borrowerName = b.borrowerName;
+  request.approved = b.approved;
 ```
 
-This route returns and HTTP response code, 500 for error, or 200 for success.
+### GET /cars/:facebook_id/requests/:requestId
 
-### POST /updatependingrequests
+Returns json format of the request that corresponds to the requestId:
 
-Use this route to add a request to a car's pending requests.
-
-This route takes parameters in the following form:
 ``` JSON
 {
-  'carId' : carId,
-  'requestId' : requestId
-  'request' : [
-    {
-      'date' : date,
-      'startTime' : startTime,
-      'endTime' : endTime,
-      'borrowerName' : borrowerName
-    }
-  ]
-
+  'requestId' : requestId,
+  'date' : date,
+  'startTime' : startTime,
+  'endTime' : endTime,
+  'borrowerName' : borrowerName,
+  'approved' : {type: Number, min: 0, max: 2}
 }
 ```
 
-This route returns and HTTP response code, 500 for error, or 200 for success.
+### PATCH /cars/:facebook_id/requests/:requestId
 
-### POST /deletefrompending
-
-Use this route to delete a request from a car's pending requests.
-
-This route takes parameters in the following form:
-``` JSON
-{
-  'carId' : carId,
-  'requestId' : requestId
-}
-```
-
-This route returns and HTTP response code, 500 for error, or 200 for success.
-
-### POST /deletefromscheduled
-
-Use this route to delete a request from a car's scheduled requests.
-
-This route takes parameters in the following form:
-``` JSON
-{
-  'carId' : carId,
-  'requestId' : requestId
-}
-```
+Edits the request information for a specific requestId. Very similar to PATCH for a carschema.
