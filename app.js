@@ -34,6 +34,18 @@ app.delete('/person', function(req, res) {
   });
 });
 
+app.delete('/person/:facebook_id', function(req, res) {
+  var facebook_id = req.params.facebook_id;
+
+  PersonModel.remove({ 'facebook_id' : facebook_id  }, function(err, removed) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+  });
+});
+
+
 app.get('/person', function(req, res) {
 
   PersonModel.find({ }, function(err, person) {
@@ -101,6 +113,18 @@ app.delete('/cars', function(req, res) {
     }
   });
 });
+
+app.delete('/cars/:facebook_id', function(req, res) {
+  var facebook_id = req.params.facebook_id;
+
+  CarModel.remove({ 'facebook_id' : facebook_id  }, function(err, removed) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+  });
+});
+
 
 app.get('/cars', function(req, res) {
 
