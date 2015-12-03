@@ -20,13 +20,13 @@ var carSchema = mongoose.Schema({
 	'moneyPolicy' : String,
 	'owner' : String,
 	'approvedList' : [mongoose.Schema.Types.Mixed],
-	'requests' : [mongoose.Schema.Types.Mixed]
+	'requests' : [String]
 });
 
 var borrowerSchema = mongoose.Schema({
 	'facebook_id' : String,
-	'can_borrow' : [mongoose.Schema.Types.Mixed],
-	'requests' : [mongoose.Schema.Types.Mixed]
+	'can_borrow' : [String],
+	'requests' : [String]
 });
 
 //For borrower or owner: They will only have a carId if they are an owner

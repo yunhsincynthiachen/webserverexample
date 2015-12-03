@@ -108,6 +108,18 @@ app.get('/person/:facebook_id', function(req, res) {
 });
 
 //BORROWER ROUTES:
+app.delete('/borrowers/:facebook_id', function(req, res) {
+  var facebook_id = req.params.facebook_id;
+
+  BorrowerModel.remove({ 'facebook_id' : facebook_id  }, function(err, removed) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+  });
+});
+
+
 app.get('/borrowers', function(req, res) {
 
   BorrowerModel.find({ }, function(err, borrowers) {
@@ -144,6 +156,58 @@ app.post('/borrowers', function(req, res) {
     res.sendStatus(200);
     return;
   })
+});
+
+app.get('/borrowers/:facebook_id', function(req, res) {
+  var facebook_id = req.params.facebook_id;
+
+  BorrowerModel.findOne({ 'facebook_id' : facebook_id }, function(err, borrower) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+
+    if (!borrower) {
+      res.json({"error":"Borrower not found"});
+      return;
+    }
+    else {
+      res.json(borrower);
+      return;
+    }
+  });
+});
+
+app.post('/borrowers/:facebook_id/canborrow', function(req, res) {
+  var b = req.body;
+
+  var facebook_id = req.params.facebook_id;
+
+
+  BorrowerModel.findOne({ 'facebook_id' : facebook_id }, function(err, borrower) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+
+    if (!car) {
+      res.json({"error":"Borrower not found"});
+      return;
+    }
+    else {
+      borrower.can_borrow.push(b.carId);
+
+      borrower.save(function(err) {
+        if (err) {
+          res.sendStatus(500);
+          return;
+        }
+
+        res.sendStatus(200);
+        return;
+      });
+    }
+  });
 });
 
 //CARS ROUTES:
