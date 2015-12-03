@@ -143,6 +143,7 @@ app.post('/borrowers', function(req, res) {
   var b = req.body;
 
   var borrower = new BorrowerModel();
+  borrower.borrower_name = b.borrower_name; 
   borrower.facebook_id = b.facebook_id;
   borrower.can_borrow = [];
   borrower.requests = [];

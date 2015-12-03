@@ -24,6 +24,7 @@ var carSchema = mongoose.Schema({
 });
 
 var borrowerSchema = mongoose.Schema({
+	'borrower_name' : String,
 	'facebook_id' : String,
 	'can_borrow' : [String],
 	'requests' : [String]
