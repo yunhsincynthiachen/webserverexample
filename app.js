@@ -108,7 +108,26 @@ app.get('/person/:facebook_id', function(req, res) {
 });
 
 //BORROWER ROUTES:
-app.post('/borrower', function(req, res) {
+app.get('/borrowers', function(req, res) {
+
+  BorrowerModel.find({ }, function(err, borrowers) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+
+    if (!borrowers) {
+      res.json({"error":"Borrowers not found"});
+      return;
+    }
+    else {
+      res.json(borrowers);
+      return;
+    }
+  });
+});
+
+app.post('/borrowers', function(req, res) {
   var b = req.body;
 
   var borrower = new BorrowerModel();
