@@ -190,7 +190,7 @@ app.post('/borrowers/:facebook_id/canborrow', function(req, res) {
       return;
     }
 
-    if (!car) {
+    if (!borrower) {
       res.json({"error":"Borrower not found"});
       return;
     }
