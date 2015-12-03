@@ -13,6 +13,7 @@ mongoose.connect(dbConfig.url);
 var CarModel = require('./models/appModel').CarModel;
 var RequestModel = require('./models/appModel').RequestModel;
 var PersonModel = require('./models/appModel').PersonModel;
+var BorrowerModel = require('./models/appModel').BorrowerModel;
 
 var app = express();
 
@@ -24,6 +25,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // routes
+
+//PERSON ROUTES:
 app.delete('/person', function(req, res) {
 
   PersonModel.remove({ }, function(err, removed) {
@@ -104,6 +107,27 @@ app.get('/person/:facebook_id', function(req, res) {
   });
 });
 
+//BORROWER ROUTES:
+app.post('/borrower', function(req, res) {
+  var b = req.body;
+
+  var borrower = new BorrowerModel();
+  borrower.facebook_id = b.facebook_id;
+  borrower.can_borrow = [];
+  borrower.requests = [];
+
+  borrower.save(function(err) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+    console.log(b);
+    res.sendStatus(200);
+    return;
+  })
+});
+
+//CARS ROUTES:
 app.delete('/cars', function(req, res) {
 
   CarModel.remove({ }, function(err, removed) {
