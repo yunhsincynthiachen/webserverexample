@@ -181,7 +181,7 @@ app.get('/borrowers/:facebook_id', function(req, res) {
 
 app.post('/borrowers/:facebook_id/canborrow', function(req, res) {
   var b = req.body;
-
+  var users_list = b.users;
   var facebook_id = req.params.facebook_id;
 
 
@@ -196,7 +196,10 @@ app.post('/borrowers/:facebook_id/canborrow', function(req, res) {
       return;
     }
     else {
-      borrower.can_borrow.push(b.carId);
+      for (var i=0; i<users_list.length; i++) {
+        console.log(users_list[i]);
+        borrower.can_borrow.push(users_list[i]);
+      }
 
       borrower.save(function(err) {
         if (err) {
