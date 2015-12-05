@@ -377,6 +377,29 @@ app.post('/cars/:facebook_id/approved', function(req, res) {
   });
 });
 
+app.delete('/cars/:facebook_id/requests', function(req, res) {
+  var facebook_id = req.params.facebook_id;
+
+  RequestModel.remove({ }, function(err, removed) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+  });
+});
+
+app.delete('/cars/:facebook_id/requests/:requestId', function(req, res) {
+  var facebook_id = req.params.facebook_id;
+  var request_id = req.params.requestId;
+
+  RequestModel.remove({ 'borrowerId' : facebook_id  }, function(err, removed) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+  });
+});
+
 app.post('/cars/:facebook_id/requests', function(req, res) {
   var b = req.body;
 
