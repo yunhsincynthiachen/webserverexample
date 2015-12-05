@@ -426,30 +426,30 @@ app.post('/cars/:facebook_id/requests', function(req, res) {
     }
   });
 
-  BorrowerModel.findOne({ 'facebook_id' : b.borrowerId }, function(err, borrower) {
-    if (err) {
-      res.sendStatus(500);
-      return;
-    }
+  // BorrowerModel.findOne({ 'facebook_id' : b.borrowerId }, function(err, borrower) {
+  //   if (err) {
+  //     res.sendStatus(500);
+  //     return;
+  //   }
 
-    if (!borrower) {
-      res.json({"error":"Borrower not found"});
-      return;
-    }
-    else {
-      borrower.requests.push(b.requestId);
+  //   if (!borrower) {
+  //     res.json({"error":"Borrower not found"});
+  //     return;
+  //   }
+  //   else {
+  //     borrower.requests.push(b.requestId);
+  //     console.log("hello");
+  //     borrower.save(function(err) {
+  //       if (err) {
+  //         res.sendStatus(500);
+  //         return;
+  //       }
 
-      borrower.save(function(err) {
-        if (err) {
-          res.sendStatus(500);
-          return;
-        }
-
-        res.sendStatus(200);
-        return;
-      });
-    }
-  });
+  //       res.sendStatus(200);
+  //       return;
+  //     });
+  //   }
+  // });
 });
 
 app.delete('/cars/:facebook_id/requests/:requestId', function(req, res) {
