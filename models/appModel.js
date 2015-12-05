@@ -6,7 +6,6 @@ var requestSchema = mongoose.Schema({
 	'startTime' : String,
 	'endTime' : String,
 	'borrowerName' : String,
-	'borrowerId' : String,
 	'approved' : {type: Number, min: 0, max: 2}
 });
 

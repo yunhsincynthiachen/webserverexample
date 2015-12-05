@@ -402,17 +402,17 @@ app.post('/cars/:facebook_id/requests', function(req, res) {
       return;
     }
     else {
-      car.requests.push(b.requestId);
+      // car.requests.push(b.requestId);
 
-      car.save(function(err) {
-        if (err) {
-          res.sendStatus(500);
-          return;
-        }
+      // car.save(function(err) {
+      //   if (err) {
+      //     res.sendStatus(500);
+      //     return;
+      //   }
 
-        res.sendStatus(200);
-        return;
-      });
+      //   res.sendStatus(200);
+      //   return;
+      // });
 
       request.save(function(err) {
         if (err) {
