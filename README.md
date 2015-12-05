@@ -212,7 +212,10 @@ app.post('/cars/:facebook_id/requests', function(req, res) {
   request.borrowerName = b.borrowerName;
   request.borrowerId = b.borrowerId;
   request.approved = b.approved;
+
 ```
+
+ALSO: updates borrower's list of requests.
 
 ### GET /cars/:facebook_id/requests/:requestId
 
