@@ -452,6 +452,18 @@ app.post('/cars/:facebook_id/requests', function(req, res) {
   });
 });
 
+app.delete('/cars/:facebook_id/requests/:requestId', function(req, res) {
+  var facebook_id = req.params.facebook_id;
+  var requestId = req.params.requestId;
+
+  RequestModel.remove({ 'requestId' : requestId  }, function(err, removed) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+  });
+});
+
 app.get('/cars/:facebook_id/requests/:requestId', function(req, res) {
   var facebook_id = req.params.facebook_id;
   var requestId = req.params.requestId;
