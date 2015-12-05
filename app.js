@@ -200,7 +200,6 @@ app.post('/borrowers/:facebook_id/canborrow', function(req, res) {
         console.log(users_list[i]);
         borrower.can_borrow.push(users_list[i]);
       }
-      borrower.can_borrow.push(b.carId);
 
       borrower.save(function(err) {
         if (err) {
@@ -388,6 +387,7 @@ app.post('/cars/:facebook_id/requests', function(req, res) {
   request.startTime = b.startTime;
   request.endTime = b.endTime;
   request.borrowerName = b.borrowerName;
+  request.borrowerId = b.borrowerId;
   request.approved = b.approved;
 
 
