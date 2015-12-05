@@ -426,43 +426,31 @@ app.post('/cars/:facebook_id/requests', function(req, res) {
     }
   });
 
-  // BorrowerModel.findOne({ 'facebook_id' : b.borrowerId }, function(err, borrower) {
-  //   if (err) {
-  //     res.sendStatus(500);
-  //     return;
-  //   }
+  BorrowerModel.findOne({ 'facebook_id' : b.borrowerId }, function(err, borrower) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
 
-  //   if (!borrower) {
-  //     res.json({"error":"Borrower not found"});
-  //     return;
-  //   }
-  //   else {
-  //     borrower.requests.push(b.requestId);
-  //     console.log("hello");
-  //     borrower.save(function(err) {
-  //       if (err) {
-  //         res.sendStatus(500);
-  //         return;
-  //       }
+    if (!borrower) {
+      res.json({"error":"Borrower not found"});
+      return;
+    }
+    else {
+      borrower.requests.push(b.requestId);
 
-  //       res.sendStatus(200);
-  //       return;
-  //     });
-  //   }
-  // });
+      borrower.save(function(err) {
+        if (err) {
+          res.sendStatus(500);
+          return;
+        }
+
+        res.sendStatus(200);
+        return;
+      });
+    }
+  });
 });
-
-// app.delete('/cars/:facebook_id/requests/:requestId', function(req, res) {
-//   var facebook_id = req.params.facebook_id;
-//   var requestId = req.params.requestId;
-
-//   RequestModel.remove({ 'requestId' : requestId  }, function(err, removed) {
-//     if (err) {
-//       res.sendStatus(500);
-//       return;
-//     }
-//   });
-// });
 
 app.get('/cars/:facebook_id/requests/:requestId', function(req, res) {
   var facebook_id = req.params.facebook_id;
