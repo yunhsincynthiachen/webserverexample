@@ -14,6 +14,7 @@ var requestSchema = mongoose.Schema({
   'startTime' : String,
   'endTime' : String,
   'borrowerName' : String,
+  'borrowerId' : String,
   'approved' : {type: Number, min: 0, max: 2}
 });
 
@@ -209,6 +210,7 @@ app.post('/cars/:facebook_id/requests', function(req, res) {
   request.startTime = b.startTime;
   request.endTime = b.endTime;
   request.borrowerName = b.borrowerName;
+  request.borrowerId = b.borrowerId;
   request.approved = b.approved;
 ```
 
@@ -223,6 +225,7 @@ Returns json format of the request that corresponds to the requestId:
   'startTime' : startTime,
   'endTime' : endTime,
   'borrowerName' : borrowerName,
+  'borrowerId' : borrowerId,
   'approved' : {type: Number, min: 0, max: 2}
 }
 ```
