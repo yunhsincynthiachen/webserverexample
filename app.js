@@ -200,6 +200,7 @@ app.post('/borrowers/:facebook_id/canborrow', function(req, res) {
         console.log(users_list[i]);
         borrower.can_borrow.push(users_list[i]);
       }
+      borrower.can_borrow.push(b.carId);
 
       borrower.save(function(err) {
         if (err) {
@@ -387,7 +388,6 @@ app.post('/cars/:facebook_id/requests', function(req, res) {
   request.startTime = b.startTime;
   request.endTime = b.endTime;
   request.borrowerName = b.borrowerName;
-  request.borrowerId = b.borrowerId;
   request.approved = b.approved;
 
 
@@ -423,31 +423,6 @@ app.post('/cars/:facebook_id/requests', function(req, res) {
         res.sendStatus(200);
         return;
       })
-    }
-  });
-
-  BorrowerModel.findOne({ 'facebook_id' : b.borrowerId }, function(err, borrower) {
-    if (err) {
-      res.sendStatus(500);
-      return;
-    }
-
-    if (!borrower) {
-      res.json({"error":"Borrower not found"});
-      return;
-    }
-    else {
-      borrower.requests.push(b.requestId);
-
-      borrower.save(function(err) {
-        if (err) {
-          res.sendStatus(500);
-          return;
-        }
-
-        res.sendStatus(200);
-        return;
-      });
     }
   });
 });
