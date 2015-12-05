@@ -402,25 +402,44 @@ app.post('/cars/:facebook_id/requests', function(req, res) {
       res.json({"error":"Car not found"});
       return;
     }
-    else {
-      car.requests.push(b.requestId);
 
-      car.save(function(err) {
+    else {
+      BorrowerModel.findOne({'facebook_id' : b.borrowerId}, function(err, borrower) {
         if (err) {
           res.sendStatus(500);
           return;
         }
-        request.save(function(err) {
-          if (err) {
-            res.sendStatus(500);
-            return;
-          }
-
-          res.sendStatus(200);
+        if (!borrower) {
+          res.json({"error":"Borrower not found"});
           return;
-        })
-      });
+        }
+        else {
+          borrower.requests.push(b.requestId);
+          car.requests.push(b.requestId);
 
+          car.save(function(err) {
+            if (err) {
+              res.sendStatus(500);
+              return;
+            }
+            request.save(function(err) {
+              if (err) {
+                res.sendStatus(500);
+                return;
+              }
+              borrower.save(function(err) {
+                if (err) {
+                  res.sendStatus(500);
+                  return;
+                }
+                
+                res.sendStatus(200);
+                return;
+              })
+            })
+          });
+        }
+      })
     }
   });
 });
