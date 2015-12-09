@@ -338,6 +338,32 @@ app.patch('/cars/:facebook_id', function(req, res) {
 //     }
 //   });
 // });
+app.delete('/cars/:facebook_id/approved/:borrower_id', function(req, res) {
+  var facebook_id = req.params.facebook_id;
+  var borrower_id = req.params.borrower_id;
+
+  CarModel.findOne({ 'facebook_id' : facebook_id  }, function(err, car) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+    for (var i=0;i<car.approvedList.length; i++){
+      if (car.approvedList[i]['id'] == borrower_id){
+        car.approvedList.splice(i);
+      }
+    }
+    car.save(function(err) {
+      if (err) {
+        res.sendStatus(500);
+        return;
+      }
+
+      res.sendStatus(200);
+      return;
+    })
+  });                                   
+});
+
 
 app.post('/cars/:facebook_id/approved', function(req, res) {
   var b = req.body;
