@@ -535,7 +535,7 @@ app.post('/cars/:facebook_id/requests', function(req, res) {
   });
 });
 
-app.get('/cars/:facebook_id/requests/:requestId', function(req, res) {
+app.get('/requests/:requestId', function(req, res) {
   var facebook_id = req.params.facebook_id;
   var requestId = req.params.requestId;
 
@@ -556,7 +556,7 @@ app.get('/cars/:facebook_id/requests/:requestId', function(req, res) {
   });
 });
 
-app.patch('/cars/:facebook_id/requests/:requestId', function(req,res) {
+app.patch('/requests/:requestId', function(req,res) {
   var facebook_id = req.params.facebook_id;
   var requestId = req.params.requestId;
   var b = req.body;
