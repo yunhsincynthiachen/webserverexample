@@ -356,9 +356,9 @@ app.post('/cars/:facebook_id/approved', function(req, res) {
       return;
     }
     else {
-      for (var i=0; i<users_list.length; i++) {
-        car.approvedList.push(users_list[i]);
-        BorrowerModel.findOne({ 'facebook_id' : users_list[i]['id']}, function(err, borrower) {
+      for (var i=0; i<user.length; i++) {
+        car.approvedList.push(user[i]);
+        BorrowerModel.findOne({ 'facebook_id' : user[i]['id']}, function(err, borrower) {
           if (err) {
             res.sendStatus(500);
             return;
