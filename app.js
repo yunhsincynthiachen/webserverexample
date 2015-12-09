@@ -349,7 +349,7 @@ app.delete('/cars/:facebook_id/approved/:borrower_id', function(req, res) {
     }
     for (var i=0;i<car.approvedList.length; i++){
       if (car.approvedList[i]['id'] == borrower_id){
-        car.approvedList.splice(i);
+        car.approvedList.remove({'id' : borrower_id});
       }
     }
     car.save(function(err) {
