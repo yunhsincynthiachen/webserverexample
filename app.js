@@ -347,19 +347,46 @@ app.delete('/cars/:facebook_id/approved/:borrower_id', function(req, res) {
       res.sendStatus(500);
       return;
     }
-
-    car.approvedList.remove(borrower_id);
-    console.log(borrower_id);
-
-    car.save(function(err) {
-      if (err) {
-        res.sendStatus(500);
-        return;
-      }
-
-      res.sendStatus(200);
+    if (!car) {
+      res.json({"error":"Car not found"});
       return;
-    })
+    }
+    else {
+      car.approvedList.remove(borrower_id);
+      console.log(borrower_id);
+
+      BorrowerModel.findOne({'facebook_id' : borrower_id}, function(err,borrower) {
+        if (err) {
+          res.sendStatus(500);
+          return;
+        }
+        if (!borrower) {
+          res.json({"error":"Borrower not found"});
+          return;
+        }
+        else {
+          borrower.can_borrow.remove(facebook_id);
+          borrower.save(function(err) {
+            if (err) {
+              res.sendStatus(500);
+              return;
+            }
+            else {
+              car.save(function(err) {
+                if (err) {
+                  res.sendStatus(500);
+                  return;
+                }
+
+                res.sendStatus(200);
+                return;
+              })
+            }
+          })
+        }
+
+      })
+    }
   });                                   
 });
 
