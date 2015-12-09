@@ -347,11 +347,9 @@ app.delete('/cars/:facebook_id/approved/:borrower_id', function(req, res) {
       res.sendStatus(500);
       return;
     }
-    for (var i=0;i<car.approvedList.length; i++){
-      if (car.approvedList[i]['id'] == borrower_id){
-        car.approvedList.remove({'id' : borrower_id});
-      }
-    }
+    car.approvedList.remove({'id' : borrower_id});
+    console.log(borrower_id);
+
     car.save(function(err) {
       if (err) {
         res.sendStatus(500);
