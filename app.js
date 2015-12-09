@@ -347,6 +347,7 @@ app.delete('/cars/:facebook_id/approved/:borrower_id', function(req, res) {
       res.sendStatus(500);
       return;
     }
+
     car.approvedList.remove({'id' : borrower_id});
     console.log(borrower_id);
 
@@ -382,7 +383,7 @@ app.post('/cars/:facebook_id/approved', function(req, res) {
     else {
       for (var i=0; i<user.length; i++) {
         car.approvedList.push(user[i]);
-        BorrowerModel.findOne({ 'facebook_id' : user[i]['id']}, function(err, borrower) {
+        BorrowerModel.findOne({ 'facebook_id' : user[i]}, function(err, borrower) {
           if (err) {
             res.sendStatus(500);
             return;
