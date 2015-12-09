@@ -200,7 +200,6 @@ app.post('/borrowers/:facebook_id/canborrow', function(req, res) {
         console.log(users_list[i]);
         borrower.can_borrow.push(users_list[i]);
       }
-      borrower.can_borrow.push(b.carId);
 
       borrower.save(function(err) {
         if (err) {
