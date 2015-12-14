@@ -445,9 +445,8 @@ app.post('/cars/:facebook_id/approved', function(req, res) {
   });
 });
 
-app.delete('/cars/:facebook_id/requests', function(req, res) {
-  var facebook_id = req.params.facebook_id;
-
+app.delete('/requests', function(req, res) {
+  
   RequestModel.remove({ }, function(err, removed) {
     if (err) {
       res.sendStatus(500);
