@@ -7,6 +7,7 @@ var requestSchema = mongoose.Schema({
 	'endTime' : String,
 	'borrowerName' : String,
 	'borrowerId' : String,
+	'optmessage' : String,
 	'approved' : {type: Number, min: 0, max: 2}
 });
 

@@ -480,6 +480,7 @@ app.post('/cars/:facebook_id/requests', function(req, res) {
   request.endTime = b.endTime;
   request.borrowerName = b.borrowerName;
   request.borrowerId = b.borrowerId;
+  request.optmessage = b.optmessage;
   request.approved = b.approved;
 
 
