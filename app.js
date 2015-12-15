@@ -574,15 +574,16 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
                 isAvailable = 0;
               }
             }
-            console.log(isAvailable);
             if (isAvailable == 1){
               console.log("here")
               list_users.push(borrower["can_borrow"][l])
             }
+            
+            console.log(list_users);
           }
         });
       }
-      console.log(list_users);
+      // console.log(list_users);
       res.json(list_users);
       return;
     }
