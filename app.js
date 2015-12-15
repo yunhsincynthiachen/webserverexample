@@ -588,9 +588,10 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
               }
               // console.log(isAvailable);
               if (isAvailable == 0){
+                console.log("in isavailable")
                 myCalls.push(get_owner_info(owner));
               }
-              cb();
+              // cb();
             }
           });
         }
