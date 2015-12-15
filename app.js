@@ -597,7 +597,7 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
                 //     res.json({"error":"Owner not found"});
                 //     return;
                 //   }
-                  list_users.push(owner_info)
+                  list_users.push(owner)
                   cb();
                 // })
               }
