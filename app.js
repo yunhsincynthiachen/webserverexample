@@ -578,9 +578,11 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
                 console.log("here")
                 isAvailable = 0;
               }
+              console.log(isAvailable);
             }
           }
         });
+        console.log(isAvailable);
         if (isAvailable == 1){
           list_users.push(borrower["can_borrow"][l])
         }
