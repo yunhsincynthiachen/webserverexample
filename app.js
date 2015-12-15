@@ -570,6 +570,7 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
         //    });
         // });
         myCalls.push(function (callback) {
+          var isAvailable = 0;
           console.log(owner_id);
           RequestModel.find({ 'ownerId' : owner_id }, function(err2, request) {
             if (err2) {
@@ -585,20 +586,20 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
               console.log(request);
               list_users.push("hello");
               // var isAvailable = "here";
-              // for (var m=0; m<request.length;m++) {
-              //   // console.log(parseInt(request[m]["startTime"]))
-              //   // console.log(parseInt(request[m]["endTime"]))
-              //   // console.log(parseInt(start_time_request))
-              //   // console.log(parseInt(end_time_request))
-              //   console.log(request[m]["date"], date);
-              //   if (request[m]["date"] == date){
-              //     isAvailable = "not" + isAvailable;
-              //   }
-              // }
+              for (var m=0; m<request.length;m++) {
+                // console.log(parseInt(request[m]["startTime"]))
+                // console.log(parseInt(request[m]["endTime"]))
+                // console.log(parseInt(start_time_request))
+                // console.log(parseInt(end_time_request))
+                console.log(request[m]["date"], date);
+                if (request[m]["date"] == date){
+                  isAvailable = 1;
+                }
+              }
               // console.log(isAvailable);
-              // if (isAvailable == "here"){
-              //   list_users.push(borrower["can_borrow"][l])
-              // }
+              if (isAvailable == "here"){
+                list_users.push(owner_id)
+              }
             }
             callback(null,null);
           });
