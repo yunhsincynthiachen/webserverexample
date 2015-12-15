@@ -556,20 +556,20 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
       return;
     }
     else {
-      for (var l=0; l<borrower["can_borrow"].length; l++){
-        console.log(borrower["can_borrow"][l]);
-        var owner_id = borrower["can_borrow"][l];
-        // var query = getJedisQuery(owner_id);
+      myCalls.push(function (callback) {
+        for (var l=0; l<borrower["can_borrow"].length; l++){
+          console.log(borrower["can_borrow"][l]);
+          var owner_id = borrower["can_borrow"][l];
+          // var query = getJedisQuery(owner_id);
 
-        // query.exec(function(err,jedis){
-        //    if(err)
-        //       return cosole.log(err);
-        //    jedis.forEach(function(jedi){
-        //       console.log(jedi["date"]);
-        //       list_users.push("hello");
-        //    });
-        // });
-        myCalls.push(function (callback) {
+          // query.exec(function(err,jedis){
+          //    if(err)
+          //       return cosole.log(err);
+          //    jedis.forEach(function(jedi){
+          //       console.log(jedi["date"]);
+          //       list_users.push("hello");
+          //    });
+          // });
           var isAvailable = 0;
           console.log(owner_id);
           RequestModel.find({ 'ownerId' : owner_id }, function(err2, request) {
@@ -603,9 +603,8 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
             }
             callback(null,null);
           });
-        })
-      }
-
+        }
+      })
       async.parallel(myCalls, function(err, result) {
         /* this code will run after all calls finished the job or
            when any of the calls passes an error */
