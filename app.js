@@ -527,7 +527,7 @@ app.post('/cars/:facebook_id/requests', function(req, res) {
   });
 });
 
-app.get('/requests/:ownerId', function(req, res) {
+app.get('/requests_owner/:ownerId', function(req, res) {
   var ownerId = req.params.ownerId;
 
   RequestModel.find({ 'ownerId' : ownerId }, function(err, request) {
@@ -547,7 +547,7 @@ app.get('/requests/:ownerId', function(req, res) {
   });
 });
 
-app.get('/requests/:borrowerId', function(req, res) {
+app.get('/requests_borrower/:borrowerId', function(req, res) {
   var borrowerId = req.params.borrowerId;
 
   RequestModel.find({ 'borrowerId' : borrowerId }, function(err, request) {
