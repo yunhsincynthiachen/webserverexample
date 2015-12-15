@@ -556,21 +556,13 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
       return;
     }
     else {
-      myCalls.push(function (callback) {
-        for (var l=0; l<borrower["can_borrow"].length; l++){
-          var owner_id = borrower["can_borrow"][l];
-          // var query = getJedisQuery(owner_id);
+      for (var l=0; l<borrower["can_borrow"].length; l++){
+        myCalls.push(isavailable(borrower["can_borrow"][l]));
+      }
 
-          // query.exec(function(err,jedis){
-          //    if(err)
-          //       return cosole.log(err);
-          //    jedis.forEach(function(jedi){
-          //       console.log(jedi["date"]);
-          //       list_users.push("hello");
-          //    });
-          // });
-          console.log(owner_id);
-          RequestModel.find({ 'ownerId' : owner_id }, function(err2, request) {
+      function isavailable(owner) {
+        return function doQuery (cb) {
+          RequestModel.find({ 'ownerId' : owner }, function(err2, request) {
             if (err2) {
               res.sendStatus(500);
               return;
@@ -598,12 +590,61 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
               console.log(isAvailable);
               if (isAvailable == 0){
                 list_users.push(owner_id)
-                callback();
               }
+              cb();
             }
           });
         }
-      })
+      }
+      // myCalls.push(function (callback) {
+      //   for (var l=0; l<borrower["can_borrow"].length; l++){
+      //     var owner_id = borrower["can_borrow"][l];
+      //     // var query = getJedisQuery(owner_id);
+
+      //     // query.exec(function(err,jedis){
+      //     //    if(err)
+      //     //       return cosole.log(err);
+      //     //    jedis.forEach(function(jedi){
+      //     //       console.log(jedi["date"]);
+      //     //       list_users.push("hello");
+      //     //    });
+      //     // });
+      //     console.log(owner_id);
+      //     RequestModel.find({ 'ownerId' : owner_id }, function(err2, request) {
+      //       if (err2) {
+      //         res.sendStatus(500);
+      //         return;
+      //       }
+
+      //       if (!request) {
+      //         res.json({"error":"Request not found"});
+      //         return;
+      //       }
+      //       else {
+      //         var isAvailable = 0;
+      //         console.log(request);
+      //         // list_users.push("hello");
+      //         // var isAvailable = "here";
+      //         for (var m=0; m<request.length;m++) {
+      //           // console.log(parseInt(request[m]["startTime"]))
+      //           // console.log(parseInt(request[m]["endTime"]))
+      //           // console.log(parseInt(start_time_request))
+      //           // console.log(parseInt(end_time_request))
+      //           console.log(request[m]["date"], date);
+      //           if (request[m]["date"] == date){
+      //             isAvailable = 1;
+      //           }
+      //         }
+      //         console.log(isAvailable);
+      //         if (isAvailable == 0){
+      //           list_users.push(owner_id)
+      //         }
+      //       }
+      //     });
+      //     console.log(list_users);
+      //   }
+      //   callback();
+      // })
       async.parallel(myCalls, function(err, result) {
         /* this code will run after all calls finished the job or
            when any of the calls passes an error */
