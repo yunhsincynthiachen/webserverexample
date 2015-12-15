@@ -556,16 +556,14 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
       var list_users = [];
       for (var l=0; l<borrower["can_borrow"].length; l++){
         console.log(borrower["can_borrow"][l]);
-        RequestModel.find({ 'borrowerId' : borrower["can_borrow"][l] }, function(err2, request) {
+        RequestModel.find({ 'ownerId' : borrower["can_borrow"][l] }, function(err2, request) {
           if (err2) {
             res.sendStatus(500);
-            console.log("here");
             return;
           }
 
           if (!request) {
             res.json({"error":"Request not found"});
-            console.log("here2");
             return;
           }
           else {
