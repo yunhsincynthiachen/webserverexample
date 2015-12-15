@@ -579,6 +579,8 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
           }
         });
       }
+      res.json(list_users);
+      return;
     }
   });
 
