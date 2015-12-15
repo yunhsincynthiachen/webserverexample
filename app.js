@@ -598,9 +598,9 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
                 //     return;
                 //   }
                   list_users.push(owner)
-                  cb();
                 // })
               }
+              cb();
             }
           });
         }
