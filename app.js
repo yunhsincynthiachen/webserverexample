@@ -599,8 +599,8 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
               if (isAvailable == 0){
                 list_users.push(owner_id)
               }
-              console.log(list_users);
             }
+            console.log(list_users);
           });
         }
         callback(null,null);
