@@ -569,7 +569,6 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
           //       list_users.push("hello");
           //    });
           // });
-          var isAvailable = 0;
           console.log(owner_id);
           RequestModel.find({ 'ownerId' : owner_id }, function(err2, request) {
             if (err2) {
@@ -582,6 +581,7 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
               return;
             }
             else {
+              var isAvailable = 0;
               console.log(request);
               // list_users.push("hello");
               // var isAvailable = "here";
