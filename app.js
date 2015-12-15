@@ -588,7 +588,7 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
               }
               // console.log(isAvailable);
               if (isAvailable == 0){
-                owner_info(owner)
+                myCalls.push(get_owner_info(owner));
               }
               cb();
             }
@@ -596,7 +596,7 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
         }
       }
 
-      function owner_info(owner) {
+      function get_owner_info(owner) {
         return function doQuery2(cb2) {
           console.log("here")
           for (var n=0; n<owner.length;n++){
