@@ -581,7 +581,7 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
               return;
             }
             else {
-              list_users.push(request);
+              list_users.push("hello");
               callback(null,null);
               // var isAvailable = "here";
               // for (var m=0; m<request.length;m++) {
