@@ -567,15 +567,15 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
             return;
           }
           else {
-            console.log(request);
             var isAvailable = 1;
             for (var m=0; m<request.length;m++) {
               console.log(request[m]);
               if (request[m]["date"] == date && parseInt(request[m]["startTime"])<= parseInt(start_time_request) && parseInt(start_time_request) <= parseInt(request[m]["endTime"]) && parseInt(request[m]["startTime"])<= parseInt(end_time_request) && parseInt(end_time_request) <= parseInt(request[m]["endTime"])){
                 isAvailable = 0;
+                console.log("here")
               }
             }
-
+            console.log(isAvailable);
             if (isAvailable == 1){
               list_users.push(borrower["can_borrow"][l])
             }
