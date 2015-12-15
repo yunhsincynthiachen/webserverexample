@@ -598,8 +598,8 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
               //   list_users.push(borrower["can_borrow"][l])
               // }
             }
+            callback(null,null);
           });
-          callback(null,null);
         })
       }
 
