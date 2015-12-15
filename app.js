@@ -597,13 +597,13 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
         //   }
         // });
       }
-      async.parallel(calls, function(err, result) {
+      async.parallel(list_users, function(err, result) {
         /* this code will run after all calls finished the job or
            when any of the calls passes an error */
         if (err) {
           return console.log(err);
         }
-        res.json(list_users);
+        res.json(result);
         return;
       });
     }
