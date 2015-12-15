@@ -304,40 +304,6 @@ app.patch('/cars/:facebook_id', function(req, res) {
   });
 });
 
-// app.post('/borrowers/:facebook_id/canborrow', function(req, res) {
-//   var b = req.body;
-//   var users_list = b.users;
-//   var facebook_id = req.params.facebook_id;
-
-
-//   BorrowerModel.findOne({ 'facebook_id' : facebook_id }, function(err, borrower) {
-//     if (err) {
-//       res.sendStatus(500);
-//       return;
-//     }
-
-//     if (!borrower) {
-//       res.json({"error":"Borrower not found"});
-//       return;
-//     }
-//     else {
-//       for (var i=0; i<users_list.length; i++) {
-//         console.log(users_list[i]);
-//         borrower.can_borrow.push(users_list[i]);
-//       }
-
-//       borrower.save(function(err) {
-//         if (err) {
-//           res.sendStatus(500);
-//           return;
-//         }
-
-//         res.sendStatus(200);
-//         return;
-//       });
-//     }
-//   });
-// });
 app.delete('/cars/:facebook_id/approved/:borrower_id', function(req, res) {
   var facebook_id = req.params.facebook_id;
   var borrower_id = req.params.borrower_id;
@@ -565,6 +531,54 @@ app.get('/requests_borrower/:borrowerId', function(req, res) {
       return;
     }
   });
+});
+
+app.get('/requests_cars/:borrowerId', function(req,res) {
+  var borrowerId = req.params.borrowerId;
+  var b = req.body;
+  var date = b.date;
+  var start_time_request = b.start_time_request;
+  var end_time_request = b.end_time_request;
+
+  BorrowerModel.findOne({ 'facebook_id' : borrowerId}, function(err, borrower) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    } 
+    if (!borrower) {
+      res.json({"error":"Borrower not found"});
+      return;
+    }
+    else {
+      var list_users = [];
+      for (var l=0; l<borrower["can_borrow"].length; l++){
+        RequestModel.find({ 'borrowerId' : borrower["can_borrow"][l] }, function(err, request) {
+          if (err) {
+            res.sendStatus(500);
+            return;
+          }
+
+          if (!request) {
+            res.json({"error":"Request not found"});
+            return;
+          }
+          else {
+            var isAvailable = 1;
+            for (var m=0; m<request.length;m++) {
+              if (request["date"] == date && parseInt(request["startTime"])<= parseInt(start_time_request) && parseInt(start_time_request) <= parseInt(request["endTime"]) && parseInt(request["startTime"])<= parseInt(end_time_request) && parseInt(end_time_request) <= parseInt(request["endTime"])){
+                isAvailable = 0;
+              }
+            }
+
+            if (isAvailable == 1){
+              list_users.push(borrower["can_borrow"][l])
+            }
+          }
+        });
+      }
+    }
+  });
+
 });
 
 app.patch('/requests/:requestId', function(req,res) {
