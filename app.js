@@ -588,35 +588,40 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
               }
               // console.log(isAvailable);
               if (isAvailable == 0){
-                console.log("in isavailable")
-                myCalls.push(get_owner_info(owner));
+                list_users.push(getUser(owner));
               }
-              // cb();
+              cb();
             }
           });
         }
       }
 
-      function get_owner_info(owner) {
-        return function doQuery2(cb) {
-          console.log("here")
-          for (var n=0; n<owner.length;n++){
-            CarModel.findOne({'facebook_id' : owner}, function(err3, owner_info){
-              if (err3) {
-                res.sendStatus(500);
-                return;
-              }
-              if (!owner_info) {
-                res.json({"error":"Owner not found"});
-                return;
-              }
-              list_users.push(owner_info)
-              console.log(owner_info);
-              cb();
-            })
-          }
-        }
-      }
+      function getUser(username, callback) {
+        console.log("here")
+        CarModel.findOne({"facebook_id":username}, function(err, user) {
+            callback(user);
+        });
+      };
+
+      // function owner_info(owner) {
+      //   return function doQuery2(cb2) {
+      //     for (var n=0; n<owner.length;n++){
+      //       CarModel.findOne({'facebook_id' : owner}, function(err3, owner_info){
+      //         if (err3) {
+      //           res.sendStatus(500);
+      //           return;
+      //         }
+      //         if (!owner_info) {
+      //           res.json({"error":"Owner not found"});
+      //           return;
+      //         }
+      //         list_users.push(owner_info)
+      //         console.log(owner_info);
+      //         cb2();
+      //       })
+      //     }
+      //   }
+      // }
       async.parallel(myCalls, function(err, result) {
         /* this code will run after all calls finished the job or
            when any of the calls passes an error */
