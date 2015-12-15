@@ -4,6 +4,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var async = require('async');
 
 // config mongoose
 var dbConfig = require('./config/db');
@@ -567,8 +568,6 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
               list_users.push("hello");
            });
         });
-
-        console.log(query);
         // RequestModel.find({ 'ownerId' : borrower["can_borrow"][l] }, function(err2, request) {
         //   if (err2) {
         //     res.sendStatus(500);
@@ -598,8 +597,15 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
         //   }
         // });
       }
-      res.json(list_users);
-      return;
+      async.parallel(calls, function(err, result) {
+        /* this code will run after all calls finished the job or
+           when any of the calls passes an error */
+        if (err) {
+          return console.log(err);
+        }
+        res.json(list_users);
+        return;
+      });
     }
   });
 });
