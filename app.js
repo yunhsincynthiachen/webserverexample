@@ -598,6 +598,7 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
 
       function owner_info(owner) {
         return function doQuery2(cb2) {
+          console.log("here")
           for (var n=0; n<owner.length;n++){
             CarModel.findOne({'facebook_id' : owner}, function(err3, owner_info){
               if (err3) {
