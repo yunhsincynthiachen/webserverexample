@@ -558,7 +558,6 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
     else {
       myCalls.push(function (callback) {
         for (var l=0; l<borrower["can_borrow"].length; l++){
-          console.log(borrower["can_borrow"][l]);
           var owner_id = borrower["can_borrow"][l];
           // var query = getJedisQuery(owner_id);
 
@@ -596,12 +595,13 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
                   isAvailable = 1;
                 }
               }
+              console.log(isAvailable);
+              if (isAvailable == 0){
+                list_users.push(owner_id)
+              }
+              console.log(list_users);
             }
           });
-          console.log(isAvailable);
-          if (isAvailable == 0){
-            list_users.push(owner_id)
-          }
         }
         callback(null,null);
       })
