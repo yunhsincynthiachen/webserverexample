@@ -589,7 +589,7 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
               }
               console.log(isAvailable);
               if (isAvailable == 0){
-                list_users.push(owner_id)
+                list_users.push(owner)
               }
               cb();
             }
