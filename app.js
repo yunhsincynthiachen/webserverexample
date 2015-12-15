@@ -554,8 +554,9 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
     }
     else {
       var list_users = [];
-      console.log(borrower["can_borrow"]);
+      console.log(borrower["can_borrow"].length);
       for (var l=0; l<borrower["can_borrow"].length; l++){
+        console.log(l);
         RequestModel.find({ 'borrowerId' : borrower["can_borrow"][l] }, function(err, request) {
           if (err) {
             res.sendStatus(500);
