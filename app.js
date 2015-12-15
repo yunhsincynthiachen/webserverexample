@@ -558,45 +558,46 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
       for (var l=0; l<borrower["can_borrow"].length; l++){
         console.log(borrower["can_borrow"][l]);
         var owner_id = borrower["can_borrow"][l];
-        var query = getJedisQuery(owner_id);
+        // var query = getJedisQuery(owner_id);
 
-        query.exec(function(err,jedis){
-           if(err)
-              return cosole.log(err);
-           jedis.forEach(function(jedi){
-              console.log(jedi["date"]);
-              list_users.push("hello");
-           });
-        });
-        // RequestModel.find({ 'ownerId' : borrower["can_borrow"][l] }, function(err2, request) {
-        //   if (err2) {
-        //     res.sendStatus(500);
-        //     return;
-        //   }
-
-        //   if (!request) {
-        //     res.json({"error":"Request not found"});
-        //     return;
-        //   }
-        //   else {
-        //     var isAvailable = "here";
-        //     for (var m=0; m<request.length;m++) {
-        //       // console.log(parseInt(request[m]["startTime"]))
-        //       // console.log(parseInt(request[m]["endTime"]))
-        //       // console.log(parseInt(start_time_request))
-        //       // console.log(parseInt(end_time_request))
-        //       console.log(request[m]["date"], date);
-        //       if (request[m]["date"] == date){
-        //         isAvailable = "not" + isAvailable;
-        //       }
-        //     }
-        //     console.log(isAvailable);
-        //     if (isAvailable == "here"){
-        //       list_users.push(borrower["can_borrow"][l])
-        //     }
-        //   }
+        // query.exec(function(err,jedis){
+        //    if(err)
+        //       return cosole.log(err);
+        //    jedis.forEach(function(jedi){
+        //       console.log(jedi["date"]);
+        //       list_users.push("hello");
+        //    });
         // });
+        RequestModel.find({ 'ownerId' : borrower["can_borrow"][l] }, function(err2, request) {
+          if (err2) {
+            res.sendStatus(500);
+            return;
+          }
+
+          if (!request) {
+            res.json({"error":"Request not found"});
+            return;
+          }
+          else {
+            var isAvailable = "here";
+            for (var m=0; m<request.length;m++) {
+              // console.log(parseInt(request[m]["startTime"]))
+              // console.log(parseInt(request[m]["endTime"]))
+              // console.log(parseInt(start_time_request))
+              // console.log(parseInt(end_time_request))
+              console.log(request[m]["date"], date);
+              if (request[m]["date"] == date){
+                isAvailable = "not" + isAvailable;
+              }
+            }
+            console.log(isAvailable);
+            if (isAvailable == "here"){
+              list_users.push(borrower["can_borrow"][l])
+            }
+          }
+        });
       }
+      
       async.parallel(list_users, function(err, result) {
         /* this code will run after all calls finished the job or
            when any of the calls passes an error */
@@ -610,10 +611,10 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
   });
 });
 
-function getJedisQuery(name){
-   var query = RequestModel.find({ 'ownerId' :name});
-   return query;
-}
+// function getJedisQuery(name){
+//    var query = RequestModel.find({ 'ownerId' :name});
+//    return query;
+// }
 
 app.patch('/requests/:requestId', function(req,res) {
   var requestId = req.params.requestId;
