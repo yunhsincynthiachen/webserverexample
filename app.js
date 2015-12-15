@@ -583,7 +583,7 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
                 // console.log(parseInt(start_time_request))
                 // console.log(parseInt(end_time_request))
                 console.log(request[m]["date"], date);
-                if (request[m]["date"] == date){
+                if (request[m]["date"] == date && parseInt(request[m]["startTime"]) <= parseInt(start_time_request) && parseInt(start_time_request) <= parseInt(request[m]["endTime"]) && parseInt(request[m]["startTime"]) <= parseInt(end_time_request) && parseInt(end_time_request) <= parseInt(request[m]["endTime"])){
                   isAvailable = 1;
                 }
               }
@@ -596,55 +596,6 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
           });
         }
       }
-      // myCalls.push(function (callback) {
-      //   for (var l=0; l<borrower["can_borrow"].length; l++){
-      //     var owner_id = borrower["can_borrow"][l];
-      //     // var query = getJedisQuery(owner_id);
-
-      //     // query.exec(function(err,jedis){
-      //     //    if(err)
-      //     //       return cosole.log(err);
-      //     //    jedis.forEach(function(jedi){
-      //     //       console.log(jedi["date"]);
-      //     //       list_users.push("hello");
-      //     //    });
-      //     // });
-      //     console.log(owner_id);
-      //     RequestModel.find({ 'ownerId' : owner_id }, function(err2, request) {
-      //       if (err2) {
-      //         res.sendStatus(500);
-      //         return;
-      //       }
-
-      //       if (!request) {
-      //         res.json({"error":"Request not found"});
-      //         return;
-      //       }
-      //       else {
-      //         var isAvailable = 0;
-      //         console.log(request);
-      //         // list_users.push("hello");
-      //         // var isAvailable = "here";
-      //         for (var m=0; m<request.length;m++) {
-      //           // console.log(parseInt(request[m]["startTime"]))
-      //           // console.log(parseInt(request[m]["endTime"]))
-      //           // console.log(parseInt(start_time_request))
-      //           // console.log(parseInt(end_time_request))
-      //           console.log(request[m]["date"], date);
-      //           if (request[m]["date"] == date){
-      //             isAvailable = 1;
-      //           }
-      //         }
-      //         console.log(isAvailable);
-      //         if (isAvailable == 0){
-      //           list_users.push(owner_id)
-      //         }
-      //       }
-      //     });
-      //     console.log(list_users);
-      //   }
-      //   callback();
-      // })
       async.parallel(myCalls, function(err, result) {
         /* this code will run after all calls finished the job or
            when any of the calls passes an error */
@@ -658,10 +609,6 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
   });
 });
 
-// function getJedisQuery(name){
-//    var query = RequestModel.find({ 'ownerId' :name});
-//    return query;
-// }
 
 app.patch('/requests/:requestId', function(req,res) {
   var requestId = req.params.requestId;
