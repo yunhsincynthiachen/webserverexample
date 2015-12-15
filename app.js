@@ -582,7 +582,6 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
             }
             else {
               list_users.push("hello");
-              callback(null,null);
               // var isAvailable = "here";
               // for (var m=0; m<request.length;m++) {
               //   // console.log(parseInt(request[m]["startTime"]))
@@ -600,6 +599,7 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
               // }
             }
           });
+          callback(null,null);
         })
       }
 
