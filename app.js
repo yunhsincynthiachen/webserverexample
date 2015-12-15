@@ -572,16 +572,17 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
               console.log(request[m]);
               if (request[m]["date"] == date && parseInt(request[m]["startTime"])<= parseInt(start_time_request) && parseInt(start_time_request) <= parseInt(request[m]["endTime"]) && parseInt(request[m]["startTime"])<= parseInt(end_time_request) && parseInt(end_time_request) <= parseInt(request[m]["endTime"])){
                 isAvailable = 0;
-                console.log("here")
               }
             }
             console.log(isAvailable);
             if (isAvailable == 1){
+              console.log("here")
               list_users.push(borrower["can_borrow"][l])
             }
           }
         });
       }
+      console.log(list_users);
       res.json(list_users);
       return;
     }
