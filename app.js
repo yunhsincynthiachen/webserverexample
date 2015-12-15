@@ -602,8 +602,8 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
               }
             }
           });
+          callback(null,null);
         }
-        callback(null,null);
       })
       async.parallel(myCalls, function(err, result) {
         /* this code will run after all calls finished the job or
