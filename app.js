@@ -588,21 +588,30 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
               }
               // console.log(isAvailable);
               if (isAvailable == 0){
-                CarModel.findOne({'facebook_id' : owner}, function(err3, owner_info){
-                  if (err3) {
-                    res.sendStatus(500);
-                    return;
-                  }
-                  if (!owner_info) {
-                    res.json({"error":"Owner not found"});
-                    return;
-                  }
-                  list_users.push(owner)
-                })
+                owner_info(owner)
               }
               cb();
             }
           });
+        }
+      }
+
+      function owner_info(owner) {
+        return function doQuery2(cb2) {
+          for (var n=0; n<list_users.length;n++){
+            CarModel.findOne({'facebook_id' : owner}, function(err3, owner_info){
+              if (err3) {
+                res.sendStatus(500);
+                return;
+              }
+              if (!owner_info) {
+                res.json({"error":"Owner not found"});
+                return;
+              }
+              list_users.push(owner_info)
+              cb2();
+            })
+          }
         }
       }
       async.parallel(myCalls, function(err, result) {
@@ -611,7 +620,7 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
         if (err) {
           return console.log(err);
         }
-        res.json(list_users);
+        res.json(list_carinfo);
         return;
       });
     }
