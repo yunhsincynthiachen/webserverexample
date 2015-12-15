@@ -559,6 +559,15 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
         var owner_id = borrower["can_borrow"][l];
         var query = getJedisQuery(owner_id);
 
+        query.exec(function(err,jedis){
+           if(err)
+              return cosole.log(err);
+           jedis.forEach(function(jedi){
+              console.log(jedi["date"]);
+              list_users.push("hello");
+           });
+        });
+
         console.log(query);
         // RequestModel.find({ 'ownerId' : borrower["can_borrow"][l] }, function(err2, request) {
         //   if (err2) {
