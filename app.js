@@ -596,14 +596,14 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
                   isAvailable = 1;
                 }
               }
-              console.log(isAvailable);
-              if (isAvailable == 0){
-                list_users.push(owner_id)
-              }
             }
           });
-          callback(null,null);
+          console.log(isAvailable);
+          if (isAvailable == 0){
+            list_users.push(owner_id)
+          }
         }
+        callback(null,null);
       })
       async.parallel(myCalls, function(err, result) {
         /* this code will run after all calls finished the job or
