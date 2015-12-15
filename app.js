@@ -589,7 +589,7 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
               // console.log(isAvailable);
               if (isAvailable == 0){
                 getUser(owner, function(user) { 
-                  // list_users.push(user)
+                  list_users.push(user)
                 });
                 console.log(list_users);
               }
@@ -603,15 +603,9 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
         console.log("here")
         CarModel.findOne({"facebook_id":username}, function(err, user) {
           // console.log(user);
-          pushUserInfo(user);
           callback(user);
         });
       };
-
-      function pushUserInfo(user) {
-        console.log(user);
-        list_users.push(user);
-      }
 
       // function owner_info(owner) {
       //   return function doQuery2(cb2) {
