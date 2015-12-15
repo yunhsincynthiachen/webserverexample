@@ -559,15 +559,17 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
         RequestModel.find({ 'borrowerId' : borrower["can_borrow"][l] }, function(err2, request) {
           if (err2) {
             res.sendStatus(500);
+            console.log("here");
             return;
           }
 
           if (!request) {
             res.json({"error":"Request not found"});
+            console.log("here2");
             return;
           }
           else {
-            // console.log(request);
+            console.log(request);
             var isAvailable = 1;
             for (var m=0; m<request.length;m++) {
               console.log(request[m]);
