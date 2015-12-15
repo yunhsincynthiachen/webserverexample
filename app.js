@@ -577,7 +577,6 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
               console.log(request[m]["date"], date);
               if (request[m]["date"] == date){
                 isAvailable = "not" + isAvailable;
-                return;
               }
             }
             console.log(isAvailable);
