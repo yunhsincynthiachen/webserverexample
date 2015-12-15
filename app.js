@@ -556,6 +556,7 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
       var list_users = [];
       for (var l=0; l<borrower["can_borrow"].length; l++){
         console.log(borrower["can_borrow"][l]);
+        var isAvailable = 1;
         RequestModel.find({ 'ownerId' : borrower["can_borrow"][l] }, function(err2, request) {
           if (err2) {
             res.sendStatus(500);
@@ -567,21 +568,19 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
             return;
           }
           else {
-            var isAvailable = 1;
             for (var m=0; m<request.length;m++) {
               console.log(request[m]);
               if (request[m]["date"] == date && parseInt(request[m]["startTime"])<= parseInt(start_time_request) && parseInt(start_time_request) <= parseInt(request[m]["endTime"]) && parseInt(request[m]["startTime"])<= parseInt(end_time_request) && parseInt(end_time_request) <= parseInt(request[m]["endTime"])){
                 isAvailable = 0;
               }
             }
-            if (isAvailable == 1){
-              console.log("here")
-              list_users.push(borrower["can_borrow"][l])
-            }
-            
-            console.log(list_users);
           }
         });
+        if (isAvailable == 1){
+          console.log("here")
+          list_users.push(borrower["can_borrow"][l])
+        }
+        console.log(list_users);
       }
       // console.log(list_users);
       res.json(list_users);
