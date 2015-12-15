@@ -569,7 +569,7 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
           }
           else {
             for (var m=0; m<request.length;m++) {
-              console.log(request[m]);
+              console.log(parseInt(request[m]["startTime"]))
               if (request[m]["date"] == date && parseInt(request[m]["startTime"])<= parseInt(start_time_request) && parseInt(start_time_request) <= parseInt(request[m]["endTime"]) && parseInt(request[m]["startTime"])<= parseInt(end_time_request) && parseInt(end_time_request) <= parseInt(request[m]["endTime"])){
                 isAvailable = 0;
               }
