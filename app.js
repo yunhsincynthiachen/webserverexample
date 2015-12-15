@@ -576,18 +576,16 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
               // console.log(parseInt(end_time_request))
               console.log(request[m]["date"], date);
               if (request[m]["date"] == date){
-                console.log("here")
                 isAvailable = "not" + isAvailable;
                 return;
               }
-              console.log(isAvailable);
+            }
+            console.log(isAvailable);
+            if (isAvailable == "here"){
+              list_users.push(borrower["can_borrow"][l])
             }
           }
         });
-        console.log(isAvailable);
-        if (isAvailable == "here"){
-          list_users.push(borrower["can_borrow"][l])
-        }
       }
       res.json(list_users);
       return;
