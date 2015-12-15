@@ -609,6 +609,7 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
                 return;
               }
               list_users.push(owner_info)
+              console.log(owner_info);
               cb2();
             })
           }
@@ -620,7 +621,7 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
         if (err) {
           return console.log(err);
         }
-        res.json(list_carinfo);
+        res.json(list_users);
         return;
       });
     }
