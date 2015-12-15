@@ -547,6 +547,26 @@ app.get('/requests/:ownerId', function(req, res) {
   });
 });
 
+app.get('/requests/:borrowerId', function(req, res) {
+  var borrowerId = req.params.borrowerId;
+
+  RequestModel.find({ 'borrowerId' : borrowerId }, function(err, request) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+
+    if (!request) {
+      res.json({"error":"Request not found"});
+      return;
+    }
+    else {
+      res.json(request);
+      return;
+    }
+  });
+});
+
 app.patch('/requests/:requestId', function(req,res) {
   var requestId = req.params.requestId;
   var b = req.body;
