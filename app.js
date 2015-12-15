@@ -559,7 +559,7 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
         var owner_id = borrower["can_borrow"][l];
         var query = getJedisQuery(owner_id);
 
-        console.log(quer);
+        console.log(query);
         // RequestModel.find({ 'ownerId' : borrower["can_borrow"][l] }, function(err2, request) {
         //   if (err2) {
         //     res.sendStatus(500);
