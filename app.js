@@ -602,7 +602,7 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
         CarModel.findOne({"facebook_id":username}, function(err, user) {
           // console.log(user);
           list_users.push(user);
-          callback(user);
+          callback(list_users);
         });
       };
 
