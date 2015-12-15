@@ -570,7 +570,8 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
         //    });
         // });
         myCalls.push(function (callback) {
-          RequestModel.find({ 'ownerId' : borrower["can_borrow"][l] }, function(err2, request) {
+          console.log(owner_id);
+          RequestModel.find({ 'ownerId' : owner_id }, function(err2, request) {
             if (err2) {
               res.sendStatus(500);
               return;
