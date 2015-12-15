@@ -445,16 +445,6 @@ app.post('/cars/:facebook_id/approved', function(req, res) {
   });
 });
 
-app.delete('/requests', function(req, res) {
-  
-  RequestModel.remove({ }, function(err, removed) {
-    if (err) {
-      res.sendStatus(500);
-      return;
-    }
-  });
-});
-
 app.delete('/cars/:facebook_id/requests/:requestId', function(req, res) {
   var facebook_id = req.params.facebook_id;
   var request_id = req.params.requestId;
@@ -467,12 +457,14 @@ app.delete('/cars/:facebook_id/requests/:requestId', function(req, res) {
   });
 });
 
+
 app.post('/cars/:facebook_id/requests', function(req, res) {
   var b = req.body;
 
   var facebook_id = req.params.facebook_id;
 
   var request = new RequestModel();
+  request.ownerId = b.ownerId;
   request.requestId = b.requestId;
   request.date = b.date;
   request.startTime = b.startTime;
@@ -535,10 +527,10 @@ app.post('/cars/:facebook_id/requests', function(req, res) {
   });
 });
 
-app.get('/requests/:requestId', function(req, res) {
-  var requestId = req.params.requestId;
+app.get('/requests/:ownerId', function(req, res) {
+  var ownerId = req.params.ownerId;
 
-  RequestModel.findOne({ 'requestId' : requestId }, function(err, request) {
+  RequestModel.find({ 'ownerId' : ownerId }, function(err, request) {
     if (err) {
       res.sendStatus(500);
       return;

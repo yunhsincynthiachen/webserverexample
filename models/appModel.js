@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 
 var requestSchema = mongoose.Schema({
+	'ownerId' : String,
 	'requestId' : String,
 	'date' : String,
 	'startTime' : String,
