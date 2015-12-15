@@ -533,12 +533,11 @@ app.get('/requests_borrower/:borrowerId', function(req, res) {
   });
 });
 
-app.get('/requests_cars/:borrowerId', function(req,res) {
+app.get('/requests_cars/:borrowerId/:date/:start_time_request/:end_time_request', function(req,res) {
   var borrowerId = req.params.borrowerId;
-  var b = req.body;
-  var date = b.date;
-  var start_time_request = b.start_time_request;
-  var end_time_request = b.end_time_request;
+  var date = req.params.date;
+  var start_time_request = req.params.start_time_request;
+  var end_time_request = req.params.end_time_request;
 
   BorrowerModel.findOne({ 'facebook_id' : borrowerId}, function(err, borrower) {
     if (err) {
