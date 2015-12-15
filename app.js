@@ -591,8 +591,8 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
                 getUser(owner, function(user) { 
                   list_users.push(user)
                   console.log(list_users);
-                  cb();
                 });
+                cb();
               }
             }
           });
