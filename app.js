@@ -540,9 +540,9 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
   var start_time_request = req.params.start_time_request;
   var end_time_request = req.params.end_time_request;
 
-  console.log(date);
-  console.log(start_time_request);
-  console.log(end_time_request);
+  // console.log(date);
+  // console.log(start_time_request);
+  // console.log(end_time_request);
 
   var list_users = [];
   var myCalls = [];
@@ -576,11 +576,7 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
               var isAvailable = 0;
               console.log(request);
               for (var m=0; m<request.length;m++) {
-                console.log(parseInt((request[m]["startTime"]).replace(":","")))
-                // console.log(parseInt(request[m]["endTime"]))
-                console.log(parseInt(start_time_request.replace(":","")))
-                // console.log(parseInt(end_time_request))
-                console.log(request[m]["date"], date);
+                // console.log(request[m]["date"], date);
                 if (request[m]["date"] == date){
                   if (parseInt((request[m]["startTime"]).replace(":","")) <= parseInt(start_time_request.replace(":","")) && parseInt(start_time_request.replace(":","")) <= parseInt((request[m]["endTime"]).replace(":",""))){
                     isAvailable = 1;
