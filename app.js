@@ -588,10 +588,10 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
               }
               // console.log(isAvailable);
               if (isAvailable == 0){
-                getUser(owner, function(user) { 
-                  list_users.push(user)
-                });
-                console.log(list_users);
+                // getUser(owner, function(user) { 
+                  list_users.push(owner)
+                // });
+                // console.log(list_users);
               }
               cb(); 
             }
@@ -599,13 +599,13 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
         }
       }
 
-      function getUser(username, callback) {
-        console.log("here")
-        CarModel.findOne({"facebook_id":username}, function(err, user) {
-          // console.log(user);
-          callback(user);
-        });
-      };
+      // function getUser(username, callback) {
+      //   console.log("here")
+      //   CarModel.findOne({"facebook_id":username}, function(err, user) {
+      //     // console.log(user);
+      //     callback(user);
+      //   });
+      // };
 
       async.parallel(myCalls, function(err, result) {
         /* this code will run after all calls finished the job or
