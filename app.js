@@ -109,6 +109,16 @@ app.get('/person/:facebook_id', function(req, res) {
 });
 
 //BORROWER ROUTES:
+app.delete('/borrowers', function(req, res) {
+
+  BorrowerModel.remove({ }, function(err, removed) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+  });
+});
+
 app.delete('/borrowers/:facebook_id', function(req, res) {
   var facebook_id = req.params.facebook_id;
 
@@ -412,11 +422,10 @@ app.post('/cars/:facebook_id/approved', function(req, res) {
   });
 });
 
-app.delete('/cars/:facebook_id/requests/:requestId', function(req, res) {
-  var facebook_id = req.params.facebook_id;
-  var request_id = req.params.requestId;
+//REQUESTS RELATED REQUESTS
+app.delete('/requests', function(req, res) {
 
-  RequestModel.remove({ 'borrowerId' : facebook_id  }, function(err, removed) {
+  RequestModel.remove({ }, function(err, removed) {
     if (err) {
       res.sendStatus(500);
       return;
@@ -424,6 +433,24 @@ app.delete('/cars/:facebook_id/requests/:requestId', function(req, res) {
   });
 });
 
+app.get('/requests', function(req, res) {
+
+  RequestModel.find({ }, function(err, requests) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+
+    if (!requests) {
+      res.json({"error":"Requests not found"});
+      return;
+    }
+    else {
+      res.json(requests);
+      return;
+    }
+  });
+});
 
 app.post('/cars/:facebook_id/requests', function(req, res) {
   var b = req.body;
@@ -432,6 +459,7 @@ app.post('/cars/:facebook_id/requests', function(req, res) {
 
   var request = new RequestModel();
   request.ownerId = b.ownerId;
+  request.ownerName = b.ownerName;
   request.requestId = b.requestId;
   request.date = b.date;
   request.startTime = b.startTime;
@@ -622,6 +650,7 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
     }
   });
 });
+
 
 
 app.patch('/requests/:requestId', function(req,res) {
