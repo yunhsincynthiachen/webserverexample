@@ -584,6 +584,9 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
                   else if (parseInt((request[m]["startTime"]).replace(":","")) <= parseInt(end_time_request.replace(":","")) && parseInt(end_time_request.replace(":","")) <= parseInt((request[m]["endTime"]).replace(":",""))){
                     isAvailable = 1;
                   }
+                  else if (parseInt((request[m]["startTime"]).replace(":","")) >= parseInt(start_time_request.replace(":","")) && parseInt(end_time_request.replace(":","") >= parseInt((request[m]["endTime"]).replace(":",""))){
+                    isAvailable = 1;
+                  }
                 }
               }
               // console.log(isAvailable);
