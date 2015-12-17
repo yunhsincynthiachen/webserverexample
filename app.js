@@ -449,7 +449,6 @@ app.delete('/requests/:requestId/:borrowerId/:ownerId', function(req, res) {
     }
     else {
       car.requests.remove(requestId);
-      console.log(borrower_id);
 
       BorrowerModel.findOne({'facebook_id' : borrowerId}, function(err,borrower) {
         if (err) {
