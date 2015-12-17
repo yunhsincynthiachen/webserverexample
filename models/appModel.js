@@ -10,7 +10,7 @@ var requestSchema = mongoose.Schema({
 	'borrowerName' : String,
 	'borrowerId' : String,
 	'optmessage' : String,
-	'approved' : {type: Number, min: 0, max: 2}
+	'approved' : String
 });
 
 var carSchema = mongoose.Schema({
