@@ -433,6 +433,66 @@ app.delete('/requests', function(req, res) {
   });
 });
 
+app.delete('/requests/:requestId/:borrowerId/:ownerId', function(req, res) {
+  var requestId = req.params.requestId;
+  var borrowerId = req.params.borrowerId;
+  var ownerId = req.params.ownerId;
+
+  CarModel.findOne({ 'facebook_id' : ownerId  }, function(err, car) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+    if (!car) {
+      res.json({"error":"Car not found"});
+      return;
+    }
+    else {
+      car.requests.remove(requestId);
+      console.log(borrower_id);
+
+      BorrowerModel.findOne({'facebook_id' : borrowerId}, function(err,borrower) {
+        if (err) {
+          res.sendStatus(500);
+          return;
+        }
+        if (!borrower) {
+          res.json({"error":"Borrower not found"});
+          return;
+        }
+        else {
+          borrower.requests.remove(requestId);
+          borrower.save(function(err) {
+            if (err) {
+              res.sendStatus(500);
+              return;
+            }
+            else {
+              car.save(function(err) {
+                if (err) {
+                  res.sendStatus(500);
+                  return;
+                }
+
+                RequestModel.remove({ 'requestId' : requestId  }, function(err, removed) {
+                  if (err) {
+                    res.sendStatus(500);
+                    return;
+                  }
+                  res.sendStatus(200);
+                  return;
+                });
+              })
+            }
+          })
+        }
+
+      })
+    }
+  });   
+});
+
+
 app.get('/requests', function(req, res) {
 
   RequestModel.find({ }, function(err, requests) {
