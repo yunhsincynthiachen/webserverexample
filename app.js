@@ -643,7 +643,7 @@ app.get('/requests_current/:ownerId/:datem/:dated/:datey', function(req,res) {
         var current_date = request[k]['date']
         var indices = [];
         for(var i=0; i<current_date.length;i++) {
-            if (str[i] === "/") indices.push(i);
+            if (current_date[i] === "/") indices.push(i);
         }
         
         var request_month = current_date.substring(0, indices[0]-1)
