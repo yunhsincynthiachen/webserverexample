@@ -640,8 +640,16 @@ app.get('/requests_current/:ownerId/:datem/:dated/:datey', function(req,res) {
     else {
 
       for (var k =0; k<request.length; k++){
-        // myCalls.push(find_current(date));
-        console.log(request[k]['date']);
+        var current_date = request[k]['date']
+        var indices = [];
+        for(var i=0; i<current_date.length;i++) {
+            if (str[i] === "/") indices.push(i);
+        }
+        
+        var request_month = current_date.substring(0, indices[0]-1)
+        var request_day = current_date.substring(indices[0]+1,indices[1]-1)
+        var request_year = current_date.substring(indices[1]+1,indices[2]-1)
+        console.log(request_month);
         if (request[k]['date'] == date){
 
           list_current_requests.push(request[k]);
