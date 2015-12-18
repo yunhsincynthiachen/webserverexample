@@ -667,6 +667,9 @@ app.get('/requests_future/:ownerId/:datem/:dated/:datey', function(req,res) {
               console.log(day)
               list_current_requests.push(request[k]);
             }
+            else {
+              console.log("boo")
+            }
           }
         }
       }
