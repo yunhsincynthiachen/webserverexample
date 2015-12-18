@@ -663,7 +663,8 @@ app.get('/requests_future/:ownerId/:datem/:dated/:datey', function(req,res) {
           }
           else if (request_month == month){
             if (request_day >= day){
-              console.log(request_date)
+              console.log(request_day)
+              console.log(day)
               list_current_requests.push(request[k]);
             }
           }
