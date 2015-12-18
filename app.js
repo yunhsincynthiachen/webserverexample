@@ -511,6 +511,105 @@ app.get('/requests', function(req, res) {
   });
 });
 
+app.patch('/requests_to_done/:borrowerId/:datem/:dated/:datey/:endTime', function(req, res) {
+  var datem = parseInt(req.params.datem);
+  var dated = parseInt(req.params.dated);
+  var datey = parseInt(req.params.datey);
+  var endTime = req.params.endTime;
+
+  if ((endTime).substring(endTime.indexOf(":"), (endTime).length).length != 3) {
+    var end = endTime + "0"
+  }
+  else {
+    var end = endTime
+  }
+
+  var end_time = parseInt(end)
+
+  BorrowerModel.find({ 'facebook_id' : borrowerId}, function(err, borrower) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+
+    if (!borrower) {
+      res.json({"error":"Borrower not found"});
+      return;
+    }
+    else{
+      var borrower_requests = borrower["requests"]
+      var done = 0
+      for (var s = 0; s < borrower_requests.length; s++){
+        RequestModel.findOne({ 'requestId' : borrower_requests[s]}, function(err, request) {
+          if (err) {
+            res.sendStatus(500);
+            return;
+          }
+
+          if (!request){
+            res.json({"error":"Borrower's request not found"});
+            return;
+          }
+          else {
+            var request_date = request['date']
+            var indices = [];
+            for(var i=0; i<request_date.length;i++) {
+                if (request_date[i] === "/") indices.push(i);
+            }
+            
+            var request_month = parseInt(request_date.substring(0, indices[0]))
+            var request_day = parseInt(request_date.substring(indices[0]+1,indices[1]))
+            var request_year = parseInt(request_date.substring(indices[1]+1,(request_date.length)))
+
+            if ((request["endTime"]).substring(request["endTime"].indexOf(":"), (request["endTime"]).length).length != 3) {
+              var request_end = request["endTime"] + "0"
+            }
+            else {
+              var request_end = request["endTime"]
+            }
+
+            var int_request_end = parseInt(request_end)
+
+            if (request["approved"] != "DONE"){
+              if (request_year < datey){
+                request["approved"] = "DONE"
+              }
+              else if (request_year == datey){
+                if (request_month < datem){
+                  request["approved"] = "DONE"
+                }
+                else if (request_month == datem){
+                  if (request_day < dated){
+                    request["approved"] = "DONE"
+                  }
+                  else if (request_day == dated){
+                    if (int_request_end < end_time){
+                      request["approved"] == "DONE"
+                    }
+                  }
+                }
+              }
+            }
+            request.save(function (err) {
+                if (err) {
+                    console.log(err);
+                }
+                else {
+                    //some logic goes here
+                    done++;
+                    if (done == borrower_requests.length) {
+                        return;
+                    }
+                    console.log(done);
+                }
+            })
+          }
+        })
+      }
+    }
+  })
+})
+
 app.post('/cars/:facebook_id/requests', function(req, res) {
   var b = req.body;
 
