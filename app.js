@@ -627,6 +627,14 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
   var start_time_request = req.params.start_time_request;
   var end_time_request = req.params.end_time_request;
 
+  if (start_time_request.length != 4) {
+    start_time_request = start_time_request + "0"
+  }
+
+  if (end_time_request.length != 4){
+    end_time_request = end_time_request + "0"
+  }
+
   // console.log(date);
   // console.log(start_time_request);
   // console.log(end_time_request);
@@ -664,14 +672,28 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
               // console.log(request);
               for (var m=0; m<request.length;m++) {
                 // console.log(request[m]["date"], date);
+                if (request[m]["start_time_request"].length != 4){
+                  request_start = request[m]["start_time_request"] + "0"
+                }
+                else {
+                  request_start = request[m]["start_time_request"]
+                }
+
+                if (request[m]["end_time_request"].length != 4) {
+                  request_end = request[m]["end_time_request"] + "0"
+                }
+                else {
+                  request_end = request[m]["end_time_request"]
+                }
+
                 if (request[m]["date"] == date){
-                  if (parseInt((request[m]["startTime"]).replace(":","")) <= parseInt(start_time_request.replace(":","")) && parseInt(start_time_request.replace(":","")) <= parseInt((request[m]["endTime"]).replace(":",""))){
+                  if (parseInt((request_start).replace(":","")) <= parseInt(start_time_request.replace(":","")) && parseInt(start_time_request.replace(":","")) <= parseInt((request_end).replace(":",""))){
                     isAvailable = 1;
                   }
-                  else if (parseInt((request[m]["startTime"]).replace(":","")) <= parseInt(end_time_request.replace(":","")) && parseInt(end_time_request.replace(":","")) <= parseInt((request[m]["endTime"]).replace(":",""))){
+                  else if (parseInt((request_start).replace(":","")) <= parseInt(end_time_request.replace(":","")) && parseInt(end_time_request.replace(":","")) <= parseInt((request_end).replace(":",""))){
                     isAvailable = 1;
                   }
-                  else if (parseInt((request[m]["startTime"]).replace(":","")) >= parseInt(start_time_request.replace(":","")) && parseInt(end_time_request.replace(":","")) >= parseInt((request[m]["endTime"]).replace(":",""))){
+                  else if (parseInt((request_start).replace(":","")) >= parseInt(start_time_request.replace(":","")) && parseInt(end_time_request.replace(":","")) >= parseInt((request_end).replace(":",""))){
                     isAvailable = 1;
                   }
                 }
