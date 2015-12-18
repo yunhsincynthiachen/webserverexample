@@ -600,7 +600,8 @@ app.patch('/requests_to_done/:borrowerId/:datem/:dated/:datey/:endTime', functio
                     //some logic goes here
                     done++;
                     if (done == borrower_requests.length) {
-                        return;
+                      console.log("here")
+                      return;
                     }
                     console.log(done);
                 }
