@@ -574,18 +574,22 @@ app.patch('/requests_to_done/:borrowerId/:datem/:dated/:datey/:endTime', functio
 
             if (request["approved"] != "DONE"){
               if (request_year < datey){
+                console.log("date year part")
                 request["approved"] = "DONE"
               }
               else if (request_year == datey){
                 if (request_month < datem){
+                  console.log("date month part")
                   request["approved"] = "DONE"
                 }
                 else if (request_month == datem){
                   if (request_day < dated){
+                    console.log("date day part")
                     request["approved"] = "DONE"
                   }
                   else if (request_day == dated){
                     if (int_request_end < end_time){
+                      console.log("date end part")
                       request["approved"] == "DONE"
                     }
                   }
