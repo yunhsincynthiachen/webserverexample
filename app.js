@@ -590,7 +590,7 @@ app.patch('/requests_to_done/:borrowerId/:datem/:dated/:datey/:endTime', functio
                   else if (request_day == dated){
                     if (int_request_end < end_time){
                       console.log("date end part")
-                      request["approved"] == "DONE"
+                      request["approved"] = "DONE"
                     }
                   }
                 }
