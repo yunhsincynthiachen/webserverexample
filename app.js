@@ -642,15 +642,15 @@ app.get('/requests_future/:ownerId/:datem/:dated/:datey', function(req,res) {
     else {
 
       for (var k =0; k<request.length; k++){
-        var current_date = request[k]['date']
+        var request_date = request[k]['date']
         var indices = [];
         for(var i=0; i<current_date.length;i++) {
             if (current_date[i] === "/") indices.push(i);
         }
         
-        var request_month = current_date.substring(0, indices[0])
-        var request_day = current_date.substring(indices[0]+1,indices[1])
-        var request_year = current_date.substring(indices[1]+1,(current_date.length))
+        var request_month = request_date.substring(0, indices[0])
+        var request_day = request_date.substring(indices[0]+1,indices[1])
+        var request_year = request_date.substring(indices[1]+1,(current_date.length))
         console.log(request_month);
         console.log(request_day);
         console.log(request_year);
@@ -663,6 +663,7 @@ app.get('/requests_future/:ownerId/:datem/:dated/:datey', function(req,res) {
           }
           else if (request_month == month){
             if (request_day >= day){
+              console.log(request_date)
               list_current_requests.push(request[k]);
             }
           }
