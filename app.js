@@ -538,6 +538,7 @@ app.patch('/requests_to_done/:borrowerId/:datem/:dated/:datey/:endTime', functio
       return;
     }
     else{
+      console.log(borrower_requests);
       var borrower_requests = borrower["requests"]
       var done = 0
       for (var s = 0; s < borrower_requests.length; s++){
