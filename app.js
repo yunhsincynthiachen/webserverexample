@@ -624,15 +624,19 @@ app.get('/requests_borrower/:borrowerId', function(req, res) {
 app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:end_time_request', function(req,res) {
   var borrowerId = req.params.borrowerId;
   var date = req.params.datem + "/" + req.params.dated + "/" + req.params.datey;
-  var start_time_request = req.params.start_time_request;
-  var end_time_request = req.params.end_time_request;
 
   if (start_time_request.length != 4) {
-    start_time_request = start_time_request + "0"
+    var start_time_request = req.params.start_time_request + "0"
+  }
+  else {
+    var start_time_request = req.params.start_time_request;
   }
 
   if (end_time_request.length != 4){
-    end_time_request = end_time_request + "0"
+    var end_time_request = req.params.end_time_request + "0"
+  }
+  else {
+    var end_time_request = req.params.end_time_request;
   }
 
   // console.log(date);
@@ -672,18 +676,18 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
               // console.log(request);
               for (var m=0; m<request.length;m++) {
                 // console.log(request[m]["date"], date);
-                if (request[m]["start_time_request"].length != 4){
-                  request_start = request[m]["start_time_request"] + "0"
+                if (request[m]["startTime"].length != 4){
+                  request_start = request[m]["startTime"] + "0"
                 }
                 else {
-                  request_start = request[m]["start_time_request"]
+                  request_start = request[m]["startTime"]
                 }
 
-                if (request[m]["end_time_request"].length != 4) {
-                  request_end = request[m]["end_time_request"] + "0"
+                if (request[m]["endTime"].length != 4) {
+                  request_end = request[m]["endTime"] + "0"
                 }
                 else {
-                  request_end = request[m]["end_time_request"]
+                  request_end = request[m]["endTime"]
                 }
 
                 if (request[m]["date"] == date){
