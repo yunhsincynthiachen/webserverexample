@@ -625,14 +625,14 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
   var borrowerId = req.params.borrowerId;
   var date = req.params.datem + "/" + req.params.dated + "/" + req.params.datey;
 
-  if (start_time_request.length != 4) {
+  if ((req.params.start_time_request).length != 4) {
     var start_time_request = req.params.start_time_request + "0"
   }
   else {
     var start_time_request = req.params.start_time_request;
   }
 
-  if (end_time_request.length != 4){
+  if ((req.params.end_time_request).length != 4){
     var end_time_request = req.params.end_time_request + "0"
   }
   else {
