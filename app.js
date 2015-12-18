@@ -623,7 +623,9 @@ app.get('/requests_borrower/:borrowerId', function(req, res) {
 
 app.get('/requests_current/:ownerId/:datem/:dated/:datey', function(req,res) {
   var ownerId = req.params.ownerId;
-  var date = req.params.datem + "/" + req.params.dated + "/" + req.params.datey;
+  var day = req.params.dated;
+  var year = req.params.datey;
+  var month = req.params.datem;
 
   var list_current_requests = [];
   var myCalls = [];
@@ -645,17 +647,25 @@ app.get('/requests_current/:ownerId/:datem/:dated/:datey', function(req,res) {
         for(var i=0; i<current_date.length;i++) {
             if (current_date[i] === "/") indices.push(i);
         }
-        console.log(indices[0]);
-        console.log(indices[1]);
         
         var request_month = current_date.substring(0, indices[0])
         var request_day = current_date.substring(indices[0]+1,indices[1])
-        var request_year = current_date.substring(indices[1]+1,(current_date.length)-1)
+        var request_year = current_date.substring(indices[1]+1,(current_date.length))
         console.log(request_month);
         console.log(request_day);
         console.log(request_year);
-        if (request[k]['date'] == date){
+        if (request_year > year){
           list_current_requests.push(request[k]);
+        }
+        else if (request_year == year){
+          if (request_month > month){
+            list_current_requests.push(request[k]);
+          }
+          else if (request_month == month){
+            if (request_day >= day){
+              list_current_requests.push(request[k]);
+            }
+          }
         }
       }
 
