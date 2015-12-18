@@ -629,7 +629,6 @@ app.get('/requests_current/:ownerId/:datem/:dated/:datey', function(req,res) {
   var myCalls = [];
   RequestModel.find({ 'ownerId' : ownerId }, function(err, request) {
     if (err) {
-      console.log("here")
       res.sendStatus(500);
       return;
     }
@@ -642,7 +641,9 @@ app.get('/requests_current/:ownerId/:datem/:dated/:datey', function(req,res) {
 
       for (var k =0; k<request.length; k++){
         // myCalls.push(find_current(date));
+        console.log(request[k]['date']);
         if (request[k]['date'] == date){
+
           list_current_requests.push(request[k]);
         }
       }
