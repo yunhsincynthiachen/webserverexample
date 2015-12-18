@@ -527,7 +527,7 @@ app.patch('/requests_to_done/:borrowerId/:datem/:dated/:datey/:endTime', functio
 
   var end_time = parseInt(end)
 
-  BorrowerModel.find({ 'facebook_id' : borrowerId}, function(err, borrower) {
+  BorrowerModel.findOne({ 'facebook_id' : borrowerId}, function(err, borrower) {
     if (err) {
       res.sendStatus(500);
       return;
@@ -539,7 +539,7 @@ app.patch('/requests_to_done/:borrowerId/:datem/:dated/:datey/:endTime', functio
     }
     else{
       var borrower_requests = borrower["requests"]
-      console.log(borrower);
+      console.log(borrower_requests);
       var done = 0
       for (var s = 0; s < borrower_requests.length; s++){
         RequestModel.findOne({ 'requestId' : borrower_requests[s]}, function(err, request) {
