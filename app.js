@@ -621,7 +621,7 @@ app.get('/requests_borrower/:borrowerId', function(req, res) {
   });
 });
 
-app.get('/requests_current/:ownerId/:datem/:dated/:datey', function(req,res) {
+app.get('/requests_future/:ownerId/:datem/:dated/:datey', function(req,res) {
   var ownerId = req.params.ownerId;
   var day = req.params.dated;
   var year = req.params.datey;
