@@ -649,9 +649,8 @@ app.get('/requests_current/:ownerId/:datem/:dated/:datey', function(req,res) {
         var request_month = current_date.substring(0, indices[0]-1)
         var request_day = current_date.substring(indices[0]+1,indices[1]-1)
         var request_year = current_date.substring(indices[1]+1,indices[2]-1)
-        console.log(request_month);
+        console.log(request_month, request_year, request_day);
         if (request[k]['date'] == date){
-
           list_current_requests.push(request[k]);
         }
       }
