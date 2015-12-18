@@ -601,7 +601,7 @@ app.patch('/requests_to_done/:borrowerId/:datem/:dated/:datey/:endTime', functio
                     done++;
                     if (done == borrower_requests.length) {
                       console.log("here")
-                      return;
+                      res.end("something");
                     }
                     console.log(done);
                 }
