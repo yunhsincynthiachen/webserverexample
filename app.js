@@ -654,21 +654,18 @@ app.get('/requests_future/:ownerId/:datem/:dated/:datey', function(req,res) {
         console.log(request_month);
         console.log(request_day);
         console.log(request_year);
-        if (request_year > year){
+        if (parseInt(request_year) > parseInt(year)){
           list_current_requests.push(request[k]);
         }
-        else if (request_year == year){
-          if (request_month > month){
+        else if (parseInt(request_year) == parseInt(year)){
+          if (parseInt(request_month) > parseInt(month)){
             list_current_requests.push(request[k]);
           }
-          else if (request_month == month){
-            if (request_day >= day){
+          else if (parseInt(request_month) == parseInt(month)){
+            if (parseInt(request_day) >= parseInt(day)){
               console.log(request_day)
               console.log(day)
               list_current_requests.push(request[k]);
-            }
-            else {
-              console.log("boo")
             }
           }
         }
