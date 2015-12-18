@@ -512,6 +512,7 @@ app.get('/requests', function(req, res) {
 });
 
 app.patch('/requests_to_done/:borrowerId/:datem/:dated/:datey/:endTime', function(req, res) {
+  var borrowerId = req.params.borrowerId;
   var datem = parseInt(req.params.datem);
   var dated = parseInt(req.params.dated);
   var datey = parseInt(req.params.datey);
