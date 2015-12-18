@@ -621,6 +621,42 @@ app.get('/requests_borrower/:borrowerId', function(req, res) {
   });
 });
 
+app.get('/requests_current/:ownerId/:datem/:dated/:datey', function(req,res) {
+  var ownerId = req.params.ownerId;
+  var date = req.params.datem + "/" + req.params.dated + "/" + req.params.datey;
+
+  var list_current_requests = [];
+  var myCalls = [];
+  RequestModel.find({ 'ownerId' : ownerId }, function(err, request) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+
+    if (!request) {
+      res.json({"error":"Request not found"});
+      return;
+    }
+    else {
+
+      for (var k =0; k<request.length; k++){
+        // myCalls.push(find_current(date));
+        if (request[k]['date'] == date){
+          list_current_requests.push(request[k]);
+        }
+      }
+
+      // function find_current(owner) {
+      //   return function doQuery (cb) {
+
+      //   }
+      // }
+      res.json(list_current_requests);
+      return;
+    }
+  });
+})
+
 app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:end_time_request', function(req,res) {
   var borrowerId = req.params.borrowerId;
   var date = req.params.datem + "/" + req.params.dated + "/" + req.params.datey;
