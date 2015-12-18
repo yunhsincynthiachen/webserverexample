@@ -625,14 +625,14 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
   var borrowerId = req.params.borrowerId;
   var date = req.params.datem + "/" + req.params.dated + "/" + req.params.datey;
 
-  if ((req.params.start_time_request).length != 4) {
+  if ((req.params.start_time_request).substring((req.params.start_time_request).indexOf(":"),(req.params.start_time_request).length).length != 3) {
     var start_time_request = req.params.start_time_request + "0"
   }
   else {
     var start_time_request = req.params.start_time_request;
   }
 
-  if ((req.params.end_time_request).length != 4){
+  if ((req.params.end_time_request).substring((req.params.end_time_request).indexOf(":"),(req.params.end_time_request).length).length != 3){
     var end_time_request = req.params.end_time_request + "0"
   }
   else {
@@ -676,14 +676,14 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
               // console.log(request);
               for (var m=0; m<request.length;m++) {
                 // console.log(request[m]["date"], date);
-                if (request[m]["startTime"].length != 4){
+                if ((request[m]["startTime"]).substring(request[m]["startTime"].indexOf(":"), (request[m]["startTime"]).length).length != 3){
                   request_start = request[m]["startTime"] + "0"
                 }
                 else {
                   request_start = request[m]["startTime"]
                 }
 
-                if (request[m]["endTime"].length != 4) {
+                if ((request[m]["endTime"]).substring(request[m]["endTime"].indexOf(":"), (request[m]["endTime"]).length).length != 3) {
                   request_end = request[m]["endTime"] + "0"
                 }
                 else {
@@ -692,7 +692,7 @@ app.get('/requests_cars/:borrowerId/:datem/:dated/:datey/:start_time_request/:en
 
                 console.log(request_start);
                 console.log(request_end);
-                
+
                 if (request[m]["date"] == date){
                   if (parseInt((request_start).replace(":","")) <= parseInt(start_time_request.replace(":","")) && parseInt(start_time_request.replace(":","")) <= parseInt((request_end).replace(":",""))){
                     isAvailable = 1;
